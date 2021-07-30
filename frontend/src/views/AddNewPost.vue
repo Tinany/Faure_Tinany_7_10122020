@@ -1,10 +1,10 @@
 <template>
-    <div class="newPost container col-5">
+    <div class="newPost container col-4">
         <div class="card border">
             <form class="card" action="" method="POST">
                 <h2 class="text-center h4 card-header">Créez une nouvelle publication</h2>
                 <div class="form-group">
-                    <textarea rows="6" class="form-control rounded-1 card-body" name="description"></textarea>
+                    <textarea rows="5" class="form-control rounded-1 card-body" name="description" placeholder="Écrivez quelques choses..."></textarea>
                 </div>
                 <div class="form-group align-self-center">
                     <input type="file" class="form-control-file" id="formControlFile">

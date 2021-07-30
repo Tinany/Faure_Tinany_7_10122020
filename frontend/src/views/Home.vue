@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div>
+        <header>
             <Header/>
-        </div>
+        </header>
         <main>
             <section>
                 <AddNewPost/>
@@ -11,11 +11,15 @@
                 <Post/>
             </section>
         </main>
+        <footer>
+            <Footer/>
+        </footer>
     </div>
 </template>
 
 <script>
 import Header from '@/components/Header.vue'
+import Footer from '@/components/Footer.vue'
 import AddNewPost from '@/views/AddNewPost.vue'
 import Post from '@/views/Post.vue'
 
@@ -24,7 +28,8 @@ import Post from '@/views/Post.vue'
         components: {
             Header,
             AddNewPost,
-            Post
+            Post,
+            Footer
         }
     }
 </script>
