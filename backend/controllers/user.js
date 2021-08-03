@@ -14,7 +14,8 @@ exports.signup = (req, res, next) => {
             first_name: req.body.first_name,
             last_name: req.body.last_name,
             mail: req.body.mail,
-            password: hash
+            password: hash,
+            moderator: 0
           });
           User.create(user, (err, data) => {
             if (err) {

@@ -53,7 +53,7 @@ export default {
 
             } else {
 
-                axios.post("http://localhost:3000/api/auth", {
+                axios.post("http://localhost:3000/api/auth/login", {
                     mail: this.mail,
                     password: this.password,
                 })
@@ -66,16 +66,16 @@ export default {
                     response.headers = {
                         Authorization: "Bearer " + response.data.token,
                     };
+
+                    this.$router.replace({
+                        name: 'Home'
+                    })
                 })
 
                 .catch((err) => {
                 that.errorMessage = err.response.data.message;
                 });
             }
-
-            this.$router.replace({
-                name: 'Home'
-            })
         },
     },
 };

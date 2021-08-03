@@ -7,7 +7,8 @@ const User = function(user) {
     this.city = user.city,
     this.profile_picture = user.profile_picture,
     this.mail = user.mail,
-    this.password = user.password
+    this.password = user.password,
+    this.moderator = user.moderator
 };
 
 //User creation 
@@ -29,7 +30,7 @@ User.create = (newUser, result) => {
 
 //User login
 User.findOne = (mail, result) => {
-    database.query(
+    /*database.query(
         "SELECT * FROM groupomania.user WHERE mail=?",
         mail, (err, res) => {
             if (err) {
@@ -37,7 +38,8 @@ User.findOne = (mail, result) => {
                 return;
             }
             result(null, res[0]);
-    });
+    });*/
+   console.log('ok')
 };
 
 module.exports = User;

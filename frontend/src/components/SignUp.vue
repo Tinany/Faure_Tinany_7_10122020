@@ -2,7 +2,7 @@
     <div class="container col-3">
         <img src="../assets/icon.png" alt="" width="300" height="300" class="mx-auto d-block">
         <h1 class="h2 ml-3 font-weight-bold text-danger text-center mb-4">Groupomania</h1>
-        <form class="form-signin" id="form-validation" method="post">
+        <section class="form-signin">
             <div class="row">
                 <div class="col">
                     <label for="Last_Name" class="sr-only">Nom</label>
@@ -20,7 +20,7 @@
             <div class="text-center">
                 <button class="btn btn-lg btn-danger btn-block" @click="signUp()">Inscription</button>
             </div>
-        </form>
+        </section>
         <div class="text-center mt-2">
             <router-link to="/">Connexion</router-link>
         </div>
@@ -53,26 +53,17 @@ export default {
     
     methods: {
         signUp() {
-            let form = document.querySelector("#form-validation"),
-            that = this,
-            mail_form = document.querySelector("#mail"),
-            password_form = document.querySelector("#password");
 
-            if (mail_form === "" || mail_form === null) {
-                that.errorMessage = "Veuillez saisir un email valide";
+            if (this.mail === "" || this.mail === null) {
+                this.errorMessage = "Veuillez saisir un email valide";
             }
 
-            if (password_form === "" || password_form === null) {
-                that.errorMessage = "Veuillez saisir un mot de passe valide";
-            }
-
-            if (form.checkValidity(event) === false) {
-                event.preventDefault();
-                event.stopPropagation();
+            else if (this.password === "" || this.password === null) {
+                this.errorMessage = "Veuillez saisir un mot de passe valide";
 
             } else {
-
-                axios.post("http://localhost:3000/api/auth", {
+                console.log('ok')
+                axios.post("http://localhost:3000/api/auth/signup", {
                 mail: this.mail,
                 password: this.password,
                 last_name: this.last_name,
@@ -80,23 +71,27 @@ export default {
                 })
 
             .then((response) => {
-            that.successMessage = response.data.message;
+            this.successMessage = response.data.message;
             localStorage.setItem("token", response.data.token);
+            this.$store.state.token = response.data.token;
             localStorage.setItem("userId", response.data.userId);
+            this.$store.state.user_id = response.data.user_id;
+
+            console.log(this.$store.state.token)
 
             response.headers = {
                 Authorization: "Bearer" + response.data.token,
                 };
+
+            this.$router.push({
+                name: 'Home'
+                })
             })
 
             .catch((err) => {
-                that.errorMessage = err.response.data.message;
+                this.errorMessage = err.response.data.message;
                 });
             }
-
-            this.$router.replace({
-                name: 'Home'
-            })
         },
     },
 };
