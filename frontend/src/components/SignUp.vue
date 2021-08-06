@@ -1,9 +1,9 @@
 <template>
-    <div class="container col-3">
-        <img src="../assets/icon.png" alt="" width="300" height="300" class="mx-auto d-block">
+    <section class="container">
+        <img src="../assets/icon.png" alt="" width="280" height="280" class="mx-auto d-block">
         <h1 class="h2 ml-3 font-weight-bold text-danger text-center mb-4">Groupomania</h1>
-        <section class="form-signin">
-            <div class="row">
+        <div class="mx-auto d-block col-md-5 col-lg-4">
+            <div class="form-signin row">
                 <div class="col">
                     <label for="Last_Name" class="sr-only">Nom</label>
                     <input v-model="last_name" type="text" id="last_name" class="form-control mb-2" placeholder="Nom" required autofocus="">
@@ -20,9 +20,9 @@
             <div class="text-center">
                 <button class="btn btn-lg btn-danger btn-block" @click="signUp()">Inscription</button>
             </div>
-        </section>
-        <div class="text-center mt-2">
-            <router-link to="/">Connexion</router-link>
+        </div>
+        <div class="text-center mt-2 row mx-auto d-block">
+            <router-link to="/" class="col-5">Connexion</router-link>
         </div>
         <div class="row">
             <div v-if="errorMessage" class="alert alert-danger">
@@ -32,7 +32,7 @@
                 {{ successMessage }}
             </div>
         </div>
-    </div>
+    </section>
 </template>
 
 <script>
@@ -62,7 +62,6 @@ export default {
                 this.errorMessage = "Veuillez saisir un mot de passe valide";
 
             } else {
-                console.log('ok')
                 axios.post("http://localhost:3000/api/auth/signup", {
                 mail: this.mail,
                 password: this.password,
@@ -72,12 +71,8 @@ export default {
 
             .then((response) => {
             this.successMessage = response.data.message;
-            localStorage.setItem("token", response.data.token);
             this.$store.state.token = response.data.token;
-            localStorage.setItem("userId", response.data.userId);
             this.$store.state.user_id = response.data.user_id;
-
-            console.log(this.$store.state.token)
 
             response.headers = {
                 Authorization: "Bearer" + response.data.token,

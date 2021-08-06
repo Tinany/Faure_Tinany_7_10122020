@@ -1,20 +1,22 @@
 <template>
-    <div class="container col-3">
-        <img src="../assets/icon.png" alt="" width="300" height="300" class="mx-auto d-block">
-        <h1 class="h2 ml-3 font-weight-bold text-danger text-center  mb-4">Groupomania</h1>
-        <form class="form-signin" id="form-validation">
-            <label for="mail" class="sr-only">Adresse email</label>
-            <input type="email" id="mail" class="form-control mb-2" placeholder="Email" required="" autofocus="" v-model="mail">
-            <label for="password" class="sr-only">Mot de passe</label>
-            <input type="password" id="password" class="form-control mb-3" placeholder="Mot de passe" required="" v-model="password">
-            <div class="text-center">
-                <button class="btn btn-lg btn-danger btn-block" type="submit" @click="login()">Connexion</button>
+    <section class="container">
+        <img src="../assets/icon.png" alt="" width="280" height="280" class="mx-auto d-block">
+        <h1 class="h2 ml-3 font-weight-bold text-danger text-center mb-4">Groupomania</h1>
+        <div class="row">
+            <div class="form-signin mx-auto d-block col-md-5 col-lg-4" id="form-validation">
+                <label for="mail" class="sr-only">Adresse email</label>
+                <input type="email" id="mail" class="form-control mb-2" placeholder="Email" required="" autofocus="" v-model="mail">
+                <label for="password" class="sr-only">Mot de passe</label>
+                <input type="password" id="password" class="form-control mb-3" placeholder="Mot de passe" required="" v-model="password">
+                <div class="text-center">
+                    <button class="btn btn-lg btn-danger btn-block" type="submit" @click="login()">Connexion</button>
+                </div>
             </div>
-        </form>
-        <div class="text-center mt-2">
-            <router-link to="/SignUp">Inscription</router-link>
         </div>
-    </div>
+        <div class="text-center mt-2 row mx-auto d-block">
+            <router-link to="/SignUp" class="col-5">Inscription</router-link>
+        </div>
+    </section>
 </template>
 
 <script>
@@ -34,46 +36,37 @@ export default {
     methods: {
 
         login() {
-            let form = document.querySelector("#form-validation"),
-            that = this,
-            mail_form = document.querySelector("#mail"),
-            password_form = document.querySelector("#password");
 
-            if (mail_form === "" || mail_form === null) {
-            that.errorMessage = "Veuillez saisir un email valide";
+            if (this.mail === "" || this.mail === null) {
+                this.errorMessage = "Veuillez saisir un email valide";
             }
 
-            if (password_form === "" || password_form === null) {
-            that.errorMessage = "Veuillez saisir un mot de passe valide";
-            }
-
-            if (form.checkValidity(event) === false) {
-                event.preventDefault();
-                event.stopPropagation();
+            else if (this.password === "" || this.password === null) {
+                this.errorMessage = "Veuillez saisir un mot de passe valide";
 
             } else {
 
                 axios.post("http://localhost:3000/api/auth/login", {
-                    mail: this.mail,
-                    password: this.password,
+                mail: this.mail,
+                password: this.password,
                 })
 
-                .then((response) => {
-                    that.successMessage = response.data.message;
-                    localStorage.setItem("token", response.data.token);
-                    localStorage.setItem("userId", response.data.userId);
+            .then((response) => {
+            this.successMessage = response.data.message;
+            this.$store.state.token = response.data.token;
+            this.$store.state.user_id = response.data.user_id;
 
-                    response.headers = {
-                        Authorization: "Bearer " + response.data.token,
-                    };
+            response.headers = {
+                Authorization: "Bearer" + response.data.token,
+                };
 
-                    this.$router.replace({
-                        name: 'Home'
-                    })
+            this.$router.push({
+                name: 'Home'
                 })
+            })
 
-                .catch((err) => {
-                that.errorMessage = err.response.data.message;
+            .catch((err) => {
+                this.errorMessage = err.response.data.message;
                 });
             }
         },
@@ -84,6 +77,9 @@ export default {
 
 
 <style scoped>
+    html {
+        max-width: auto;
+    }
     a {
     font-size: 20px;
     color: #000;

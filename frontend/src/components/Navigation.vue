@@ -1,8 +1,8 @@
 <template>
-    <div v-if="Login">
+    <div v-if="Login" class="row">
       <Login v-if="Login" />
     </div>
-    <div v-if="SignUp">
+    <div v-if="SignUp" class="row">
       <SignUp v-if="SignUp" />
     </div>
     <router-view/>
