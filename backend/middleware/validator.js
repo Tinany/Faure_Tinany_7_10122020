@@ -1,5 +1,7 @@
+//Technologies used
 const validatePassword = require('password-validator');
 
+//Password format
 const passwordFormat = new validatePassword();
 
 passwordFormat.is().min(6)
@@ -10,6 +12,7 @@ passwordFormat.is().min(6)
 .has().not().spaces()
 .is().not().oneOf(['123456', '987654', 'password', 'Passw0rd']);
 
+//Export
 module.exports = (req, res, next) => {
     console.log(req.body)
     if(passwordFormat.validate(req.body.password)){

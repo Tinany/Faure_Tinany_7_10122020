@@ -15,7 +15,7 @@ const normalizePort = val => {
   return false;
 };
 
-//Port to listen
+// Port to listen
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
