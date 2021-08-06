@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <header>
+    <div class="container col-xl-12 col-md-12">
+        <header class="col-xl-12">
             <Header/>
         </header>
         <main>
@@ -13,7 +13,7 @@
         </main>
         <footer>
             <Footer/>
-        </footer>
+        </footer> 
     </div>
 </template>
 
