@@ -5,7 +5,7 @@ const jsonwebtoken = require('jsonwebtoken');
 // Model
 const User = require('../models/User');
 
-//Sign-up
+//Sign up
 exports.signup = (req, res, next) => {
   console.log(req.body)
       bcrypt.hash(req.body.password, 10)
@@ -31,27 +31,55 @@ exports.signup = (req, res, next) => {
 };
 
 //Log in
-exports.login = (req, res, next) => {
-      User.findOne({ email: req.body.email })
-        .then(user => {
-          if (!user) {
-            return res.status(401).json({ error: 'Utilisateur non trouvé !' });
-          }
-          bcrypt.compare(req.body.password, user.password)
-            .then(valid => {
-              if (!valid) {
-                return res.status(401).json({ error: 'Mot de passe incorrect !' });
-              }
-              res.status(200).json({
-                userId: user._id,
+exports.login = (req, res) => {
+    User.findOne(req.body.mail, (error, data) => {
+        if(!data){
+            return res.status(401).json({error: 'Utilisateur incorrect'});
+        }
+        bcrypt.compare(req.body.password, data.password)
+        .then(isValid => {
+            if(!isValid){
+                return res.status(401).json({error: 'Mot de passe incorrect'});
+            };
+            const payload = {
+                id: data.id,
+                mail: data.mail
+            }
+            res.status(200).json({
+                ...payload,
                 token: jsonwebtoken.sign(
-                  { userId: user._id },
-                  'klmjpo4zaeM5L3hhivbUIGPIMU7gliYGLg65sefdaGIGhah',
-                  { expiresIn: '24h' }
-                )
-              });
+                payload,
+                process.env.RANDOM_TOKEN,
+                { expiresIn: '24h' }
+            )
             })
-            .catch(error => res.status(500).json({ error }));
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch(error => res.status(500).json( error ));
+    });
 };
+
+//Delete user
+exports.deleteUser = (req, res) => {
+    User.deleteOne(req.params.user_id)
+        .then(() => res.status(200).json({ message: " L'utilisateur a été supprimé ! "}))
+        .catch(error => res.status(404).json ({ error }));
+};
+
+//Update user
+exports.updateUser = (req, res) => {
+    User.updateOne(req.params.user_id, (req.body))
+    .then(() => res.status(200).json({ message: " L'utilisateur a été modifié ! "}))
+    .catch(error => res.status(404).json({ error }));
+}
+
+//Get user datas
+exports.getUserDatas = (req, res) => {
+    let token = req.headers.authorization.split(' ')[1];
+    let decodedToken = jsonwebtoken.verify(token, process.env.RANDOM_TOKEN);
+    let user_id = JSON.parse(decodedToken.user_id);
+
+    User.findById(user_id)
+    .then(user => res.status(200).json(user))
+    .catch(error => res.status(404).json({ error }));
+
+}
