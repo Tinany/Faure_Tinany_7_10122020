@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import Login from '@/components/Login.vue'
-import SignUp from '@/components/SignUp.vue'
+import Login from '@/components/Connexion/Login.vue'
+import SignUp from '@/components/Connexion/SignUp.vue'
 
     export default {
         name: 'Navigation',

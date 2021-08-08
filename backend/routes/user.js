@@ -5,12 +5,13 @@ const router = express.Router();
 //User controller & middleware
 const userController = require('../controllers/user');
 const validatePassword = require('../middleware/validator');
+const auth = require('../middleware/auth');
 
 //Users routes
 router.post('/signup', validatePassword, userController.signup);
 router.post('/login', userController.login);
-router.delete('/user/delete/:user_id', userController.deleteUser);
-router.put('/user/update/:user_id', userController.updateUser);
-router.get('/userDatas', userController.getUserDatas);
+
+router.delete('/user/delete/:user_id', auth, userController.deleteUser);
+router.put('/user/update/:user_id', auth, userController.updateUser);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Login from '../components/Login.vue'
-import SignUp from '../components/SignUp.vue'
+import Login from '../components/Connexion/Login.vue'
+import SignUp from '../components/Connexion/SignUp.vue'
 import Header from '../components/Header.vue'
 
 const routes = [
@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/SignUp',
     name: SignUp,
-    component: () => import('../components/SignUp.vue')
+    component: () => import('../components/Connexion/SignUp.vue')
   },
   {
     path: '/Header',
@@ -28,6 +28,11 @@ const routes = [
     path: '/Profile',
     name: 'Profile',
     component: () => import('../views/Profile.vue')
+  },
+  {
+    path: '/UpdateProfile',
+    name: 'UpdateProfile',
+    component: () => import('../components/Update/UpdateProfile.vue')
   }
 ]
 

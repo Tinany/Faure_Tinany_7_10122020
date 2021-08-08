@@ -1,6 +1,6 @@
 <template>
     <section class="container">
-        <img src="../assets/icon.png" alt="" width="280" height="280" class="mx-auto d-block">
+        <img src="@/assets/icon.png" alt="" width="280" height="280" class="mx-auto d-block">
         <h1 class="h2 ml-3 font-weight-bold text-danger text-center mb-4">Groupomania</h1>
         <div class="mx-auto d-block col-md-5 col-lg-4">
             <div class="form-signin row">
@@ -13,6 +13,8 @@
                     <input type="text" id="first_name" class="form-control mb-2" placeholder="Prénom" required autofocus="" v-model="first_name">
                 </div>
             </div>
+            <label for="inputCity" class="sr-only">Ville</label>
+            <input type="text" id="city" class="form-control mb-2" placeholder="Ville" required autofocus="" v-model="city">
             <label for="inputEmail" class="sr-only">Adresse email</label>
             <input type="email" id="mail" class="form-control mb-2" placeholder="Email" required autofocus="" v-model="mail">
             <label for="inputPassword" class="sr-only">Mot de passe</label>
@@ -46,6 +48,7 @@ export default {
             password: null,
             last_name: null,
             first_name: null,
+            city: null,
             errorMessage: "",
             successMessage: "",
         };
@@ -67,12 +70,13 @@ export default {
                 password: this.password,
                 last_name: this.last_name,
                 first_name: this.first_name,
+                city: this.city,
                 })
 
             .then((response) => {
             this.successMessage = response.data.message;
             this.$store.state.token = response.data.token;
-            this.$store.state.user_id = response.data.user_id;
+            this.$store.state.user = response.data.user;
 
             response.headers = {
                 Authorization: "Bearer" + response.data.token,
@@ -97,7 +101,7 @@ export default {
     font-size: 20px;
     color: #000;
     }
-    #last_name:focus, #first_name:focus, #mail:focus, #password:focus{
+    #last_name:focus, #first_name:focus, #mail:focus, #password:focus, #city:focus{
     border-color:#ffffff;
     box-shadow: 0 0 0 0.25rem rgb(255 0 33 / 25%);
     }

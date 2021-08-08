@@ -6,18 +6,20 @@ const jsonwebtoken = require('jsonwebtoken');
 const User = require('../models/User');
 
 //Sign up
-exports.signup = (req, res, next) => {
-  console.log(req.body)
-      bcrypt.hash(req.body.password, 10)
+exports.signup = (req, res) => {
+    console.log(req.body)
+    bcrypt.hash(req.body.password, 10)
         .then(hash => {
-          const user = new User({
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            mail: req.body.mail,
-            password: hash,
-            moderator: 0
-          });
-          User.create(user, (err, data) => {
+            const user = new User({
+                first_name: req.body.first_name,
+                last_name: req.body.last_name,
+                city: req.body.city,
+                mail: req.body.mail,
+                password: hash,
+                moderator: 0
+            });
+
+            User.create(user, (err, data) => {
             if (err) {
                 if (err.code == 'ER_DUP_ENTRY') {
                     return res.status(401).json({ error: 'Cet utilisateur existe déjà' });
@@ -43,7 +45,10 @@ exports.login = (req, res) => {
             };
             const payload = {
                 id: data.id,
-                mail: data.mail
+                mail: data.mail,
+                first_name: data.first_name,
+                last_name: data.last_name,
+                city: data.city
             }
             res.status(200).json({
                 ...payload,
@@ -51,11 +56,18 @@ exports.login = (req, res) => {
                 payload,
                 process.env.RANDOM_TOKEN,
                 { expiresIn: '24h' }
-            )
+                )
             })
         })
-        .catch(error => res.status(500).json( error ));
+        .catch(error => res.status(500).json(error));
     });
+};
+
+//Update user
+exports.updateUser = (req, res) => {
+    User.updateOne(req.params.user_id, (req.body))
+    .then(() => res.status(200).json({ message: " L'utilisateur a été modifié ! "}))
+    .catch(error => res.status(404).json({ error }));
 };
 
 //Delete user
@@ -64,22 +76,3 @@ exports.deleteUser = (req, res) => {
         .then(() => res.status(200).json({ message: " L'utilisateur a été supprimé ! "}))
         .catch(error => res.status(404).json ({ error }));
 };
-
-//Update user
-exports.updateUser = (req, res) => {
-    User.updateOne(req.params.user_id, (req.body))
-    .then(() => res.status(200).json({ message: " L'utilisateur a été modifié ! "}))
-    .catch(error => res.status(404).json({ error }));
-}
-
-//Get user datas
-exports.getUserDatas = (req, res) => {
-    let token = req.headers.authorization.split(' ')[1];
-    let decodedToken = jsonwebtoken.verify(token, process.env.RANDOM_TOKEN);
-    let user_id = JSON.parse(decodedToken.user_id);
-
-    User.findById(user_id)
-    .then(user => res.status(200).json(user))
-    .catch(error => res.status(404).json({ error }));
-
-}

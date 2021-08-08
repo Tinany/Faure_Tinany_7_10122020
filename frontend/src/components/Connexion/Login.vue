@@ -1,6 +1,6 @@
 <template>
     <section class="container">
-        <img src="../assets/icon.png" alt="" width="280" height="280" class="mx-auto d-block">
+        <img src="@/assets/icon.png" alt="" width="280" height="280" class="mx-auto d-block">
         <h1 class="h2 ml-3 font-weight-bold text-danger text-center mb-4">Groupomania</h1>
         <div class="row">
             <div class="form-signin mx-auto d-block col-md-5 col-lg-4" id="form-validation">
@@ -28,6 +28,9 @@ export default {
         return {
             mail: null,
             password: null,
+            first_name: null,
+            last_name: null,
+            city: null,
             errorMessage: "",
             successMessage: "",
         };
@@ -49,12 +52,17 @@ export default {
                 axios.post("http://localhost:3000/api/auth/login", {
                 mail: this.mail,
                 password: this.password,
+                first_name: this.first_name,
+                last_name: this.last_name,
+                city: this.city
                 })
 
             .then((response) => {
             this.successMessage = response.data.message;
             this.$store.state.token = response.data.token;
-            this.$store.state.user_id = response.data.user_id;
+            this.$store.state.user_id = response.data.id;
+            this.$store.state.user_name = response.data.first_name + " " + response.data.last_name;
+            this.$store.state.user_city = response.data.city;
 
             response.headers = {
                 Authorization: "Bearer" + response.data.token,

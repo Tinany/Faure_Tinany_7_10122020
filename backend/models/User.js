@@ -41,24 +41,6 @@ User.findOne = (mail, result) => {
     });
 };
 
-//Delete user
-User.deleteOne = (user_id) => {
-    return new Promise((resolve, reject) => {
-        database.query(
-            `DELETE FROM groupomania.user WHERE id=${user_id}`,
-             function (error, result) {
-                if (error) {
-                    reject(error);
-                    console.log(error + " L'tilisateur n'a pas été supprimé !");
-                } else {
-                resolve (result);
-                console.log(" L'utilisateur a bien été supprimé ! ");
-                }
-            }
-        )
-    })
-};
-
 //Update user
 User.updateOne = (user_id, user) => {
     return new Promise((resolve, reject) => {
@@ -77,16 +59,18 @@ User.updateOne = (user_id, user) => {
     })
 };
 
-//Find user by id
-User.findById = (user_id) => {
-    return new Promise((resolve, reject)=> {
+//Delete user
+User.deleteOne = (user_id) => {
+    return new Promise((resolve, reject) => {
         database.query(
-            `SELECT * FROM groupomania.user WHERE id=${user_id}`,
-            function (error, result) {
+            `DELETE FROM groupomania.user WHERE id=${user_id}`,
+             function (error, result) {
                 if (error) {
-                    reject (error);
+                    reject(error);
+                    console.log(error + " L'tilisateur n'a pas été supprimé !");
                 } else {
-                    resolve (result);
+                resolve (result);
+                console.log(" L'utilisateur a bien été supprimé ! ");
                 }
             }
         )
