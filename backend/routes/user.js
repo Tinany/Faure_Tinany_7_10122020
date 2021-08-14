@@ -12,6 +12,6 @@ router.post('/signup', validatePassword, userController.signup);
 router.post('/login', userController.login);
 
 router.delete('/user/delete/:user_id', auth, userController.deleteUser);
-router.put('/user/update/:user_id', auth, userController.updateUser);
+router.patch('/user/update/:user_id', auth, userController.updateUser);
 
 module.exports = router;

@@ -21,52 +21,54 @@
 
 <script>
 import axios from "axios";
+import { mapMutations } from "vuex";
 
 export default {
     name: "Login",
     data() {
         return {
+            id: null,
             mail: null,
             password: null,
             first_name: null,
             last_name: null,
             city: null,
+            creation_date: null,
             errorMessage: "",
-            successMessage: "",
+            successMessage: ""
         };
     },
 
     methods: {
-
+        ...mapMutations(["SET_USER_DATAS"]),
         login() {
 
             if (this.mail === "" || this.mail === null) {
                 this.errorMessage = "Veuillez saisir un email valide";
+                alert('Adresse mail inconnue');
             }
 
             else if (this.password === "" || this.password === null) {
                 this.errorMessage = "Veuillez saisir un mot de passe valide";
+                alert('Mot de passe incorrect');
 
             } else {
 
                 axios.post("http://localhost:3000/api/auth/login", {
+                id: this.id,
                 mail: this.mail,
                 password: this.password,
                 first_name: this.first_name,
                 last_name: this.last_name,
-                city: this.city
+                city: this.city,
+                creation_date: this.creation_date
                 })
 
             .then((response) => {
             this.successMessage = response.data.message;
-            this.$store.state.token = response.data.token;
-            this.$store.state.user_id = response.data.id;
-            this.$store.state.user_name = response.data.first_name + " " + response.data.last_name;
-            this.$store.state.user_city = response.data.city;
+            this.SET_USER_DATAS(response.data)
 
-            response.headers = {
-                Authorization: "Bearer" + response.data.token,
-                };
+            axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.token,
 
             this.$router.push({
                 name: 'Home'
@@ -78,7 +80,7 @@ export default {
                 });
             }
         },
-    },
+    }
 };
 </script>
 

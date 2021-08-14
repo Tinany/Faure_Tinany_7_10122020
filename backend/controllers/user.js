@@ -1,6 +1,11 @@
 //Technologies used
 const bcrypt = require('bcryptjs');
 const jsonwebtoken = require('jsonwebtoken');
+const dateTime = require('node-datetime');
+
+// DateTime
+const createDateTime = dateTime.create();
+const formatDateTime = createDateTime.format('d/m/y H:M');
 
 // Model
 const User = require('../models/User');
@@ -14,6 +19,7 @@ exports.signup = (req, res) => {
                 first_name: req.body.first_name,
                 last_name: req.body.last_name,
                 city: req.body.city,
+                creation_date: formatDateTime,
                 mail: req.body.mail,
                 password: hash,
                 moderator: 0
@@ -25,8 +31,15 @@ exports.signup = (req, res) => {
                     return res.status(401).json({ error: 'Cet utilisateur existe déjà' });
                 }
             }
-            res.send(data);
-            console.log(data + 'Le compte a bien été créé');
+            res.status(200).json({
+                ...data,
+                token: jsonwebtoken.sign(
+                data,
+                process.env.RANDOM_TOKEN,
+                { expiresIn: '24h' }
+                )
+            })
+            console.log(data, 'Le compte a bien été créé');
         });
     })
     .catch(error => res.status(500).json( error ));
@@ -48,7 +61,8 @@ exports.login = (req, res) => {
                 mail: data.mail,
                 first_name: data.first_name,
                 last_name: data.last_name,
-                city: data.city
+                city: data.city,
+                creation_date: data.creation_date
             }
             res.status(200).json({
                 ...payload,

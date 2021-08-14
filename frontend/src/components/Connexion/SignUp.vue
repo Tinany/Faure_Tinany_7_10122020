@@ -39,6 +39,7 @@
 
 <script>
 import axios from "axios";
+import { mapMutations } from "vuex";
 
 export default {
     name: "signUp",
@@ -49,12 +50,14 @@ export default {
             last_name: null,
             first_name: null,
             city: null,
+            creation_date: null,
             errorMessage: "",
             successMessage: "",
         };
     },
     
     methods: {
+    ...mapMutations(["SET_USER_DATAS"]),
         signUp() {
 
             if (this.mail === "" || this.mail === null) {
@@ -75,13 +78,10 @@ export default {
 
             .then((response) => {
             this.successMessage = response.data.message;
-            this.$store.state.token = response.data.token;
-            this.$store.state.user = response.data.user;
+            this.SET_USER_DATAS(response.data)
 
-            response.headers = {
-                Authorization: "Bearer" + response.data.token,
-                };
-
+            axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.token,
+            
             this.$router.push({
                 name: 'Home'
                 })

@@ -6,6 +6,7 @@ const User = function(user) {
     this.last_name = user.last_name,
     this.city = user.city,
     this.profile_picture = user.profile_picture,
+    this.creation_date = user.creation_date,
     this.mail = user.mail,
     this.password = user.password,
     this.moderator = user.moderator
@@ -23,7 +24,7 @@ User.create = (newUser, result) => {
                 return;
             }
             console.log(' La création utilisateur est réussie ');
-            result(null, {id: res.id, ...newUser});
+            result(null, {id: res.insertId, ...newUser});
         }
     );
 };
@@ -45,7 +46,7 @@ User.findOne = (mail, result) => {
 User.updateOne = (user_id, user) => {
     return new Promise((resolve, reject) => {
         database.query(
-            `UPDATE groupomania.user SET last_name="${user.last_name}", first_name="${user.first_name}", mail="${user.mail}", profile_picture="${user.profile_picture}" WHERE id=${user_id}`,
+            `UPDATE groupomania.user SET last_name="${user.last_name}", first_name="${user.first_name}", city="${user.city}", profile_picture="${user.profile_picture}" WHERE id=${user_id}`,
             function (error, result) {
                 if (error) {
                     reject (error);
