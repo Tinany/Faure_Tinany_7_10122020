@@ -40,11 +40,43 @@ Comment.findAll = (post_id) => {
     })
 };
 
-//Update comment
-Comment.updateOne = (commentId, description) => {
+//Find all comment by user id
+Comment.findAllUserComment = (user_id) => {
     return new Promise((resolve, reject) => {
         database.query(
-            `UPDATE groupomania.comment SET decription=${comment.description} WHERE id=${comment.id}`, 
+            `SELECT * FROM groupomania.comment WHERE post_id=${user_id}`, 
+            function (error, result) {
+                if (error) { 
+                    reject (error);
+                } else {
+                    resolve (result);
+                }
+            }
+        )
+    })
+};
+
+//Find comment by id 
+Comment.findById = (comment_id) => {
+    return new Promise((resolve, reject) => {
+        database.query(
+            `SELECT * FROM groupomania.comment WHERE id=${comment_id}`, 
+            function (error, result) {
+                if (error) { 
+                    reject (error);
+                } else {
+                    resolve (result);
+                }
+            }
+        )
+    })
+};
+
+//Update comment
+Comment.updateOne = (comment_id, comment_description) => {
+    return new Promise((resolve, reject) => {
+        database.query(
+            `UPDATE groupomania.comment SET decription=${comment_description} WHERE id=${comment_id}`, 
             function (error, result) {
                 if (error) { 
                     reject (error);
@@ -59,10 +91,10 @@ Comment.updateOne = (commentId, description) => {
 };
 
 //Delete comment
-Comment.deleteOneComment = (commentId) => {
+Comment.deleteOneComment = (comment_id) => {
     return new Promise((resolve, reject) => {
         database.query(
-            `DELETE FROM groupomania.comment WHERE id=${comment.id}`,
+            `DELETE FROM groupomania.comment WHERE id=${comment_id}`,
              function (error, result) {
                 if (error) {
                     reject(error);
