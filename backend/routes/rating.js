@@ -7,6 +7,6 @@ const ratingController = require('../controllers/rating');
 const auth = require('../middleware/auth');
 
 //Rating routes
-/*router.post('/:post_id/rating', auth, ratingController.addRating);*/
+router.post('/:post_id/rating', auth, ratingController.addRating);
 
 module.exports = router;

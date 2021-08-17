@@ -18,8 +18,24 @@ Rating.like = (newLike, result) => {
                     result(err, null);
                     return;
                 }
-                console.log("J'aime pris en compte " + {id: res.id, ...newLike });
+                console.log("Votre mention j'aime a été pris en compte " + {id: res.id, ...newLike });
                 result(null, {id: res.id, ...newLike});
+            }
+        )
+    })
+};
+
+//Find rating with post id
+Rating.findByPostId = (post_id) => {
+    return new Promise((resolve, reject) => {
+        database.query(
+            `SELECT * FROM groupomania.rating WHERE post_id=${post_id}`,
+            function (error, result) {
+                if (error) {
+                    reject (error);
+                } else {
+                    resolve (result);
+                }
             }
         )
     })
