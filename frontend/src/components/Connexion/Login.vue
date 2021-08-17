@@ -45,12 +45,12 @@ export default {
 
             if (this.mail === "" || this.mail === null) {
                 this.errorMessage = "Veuillez saisir un email valide";
-                alert('Adresse mail inconnue');
+                alert('Veuillez saisir votre adresse mail');
             }
 
             else if (this.password === "" || this.password === null) {
                 this.errorMessage = "Veuillez saisir un mot de passe valide";
-                alert('Mot de passe incorrect');
+                alert('Veuillez saisir votre mot de passe');
 
             } else {
 
@@ -77,6 +77,7 @@ export default {
 
             .catch((err) => {
                 this.errorMessage = err.response.data.message;
+                alert('Adresse mail ou mot de passe incorrect');
                 });
             }
         },
