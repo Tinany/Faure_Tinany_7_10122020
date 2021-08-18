@@ -4,11 +4,12 @@ const router = express.Router();
 
 //User controller & middleware
 const userController = require('../controllers/user');
-const validatePassword = require('../middleware/validator');
+const validatePassword = require('../middleware/passwordValidator');
+const {checkSignUp} = require('../middleware/emailValidator');
 const auth = require('../middleware/auth');
 
 //Users routes
-router.post('/signup', validatePassword, userController.signup);
+router.post('/signup', checkSignUp, validatePassword, userController.signup);
 router.post('/login', userController.login);
 
 router.delete('/user/delete/:user_id', auth, userController.deleteUser);
