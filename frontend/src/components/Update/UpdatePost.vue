@@ -1,13 +1,13 @@
 <template>
-    <div>
-        <header>
+    <div class="container col-xl-12 col-md-12">
+        <header class="col-xl-12">
             <Header/>
         </header>
         <main>
         </main>
         <footer>
             <Footer/>
-        </footer>
+        </footer> 
     </div>
 </template>
 
@@ -15,8 +15,11 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 
-export default {
-  components: { Header, Footer },
-    name: "UpdatePost"
-}
+    export default {
+        name: 'Home',
+        components: {
+            Header,
+            Footer
+        }
+    }
 </script>

@@ -6,7 +6,8 @@ module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jsonwebtoken.verify(token, process.env.RANDOM_TOKEN);
-    const user_id = decodedToken.user_id;
+    console.log(decodedToken)
+    const user_id = decodedToken.id;
     if (req.body.user_id && req.body.user_id !== user_id) {
       throw 'Invalid user ID';
     } else {

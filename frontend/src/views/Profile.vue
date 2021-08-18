@@ -22,7 +22,7 @@
             <div class="bg-light p-4 d-flex justify-content-end text-center">
               <ul class="list-inline mb-0">
                   <li class="list-inline-item">
-                    <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted mr-1">Posts</small>
+                    <h5 class="font-weight-bold mb-0 d-block">{{ countPost }}</h5><small class="text-muted mr-1">Posts</small>
                   </li>
                   <li class="list-inline-item">
                     <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted mr-1">Comments</small>
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import { mapState } from "vuex";
@@ -55,9 +56,28 @@ export default {
     Header,
     Footer
   },
-  computed: {
-    ...mapState(["user_last_name", "user_first_name", "user_city", "user_profile_picture"])
+
+  data() {
+    return {
+      countPost: null,
+    }
   },
+
+  computed: {
+    ...mapState(["user_last_name", "user_first_name", "user_city", "user_profile_picture", "user_id"])
+  },
+
+  mounted() {
+        axios.get(`http://localhost:3000/api/post/countUserPosts/${this.user_id}`)
+      .then((response) => {
+        console.log(response.data);
+        this.countPost = response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  },
+  
   methods : {
 
     showUpdateProfilePage() {

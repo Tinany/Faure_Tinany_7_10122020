@@ -4,7 +4,7 @@
             <Header/>
         </header>
         <main>
-            <section class="updateProfile container col-5 mt-4">
+            <section class="updateProfile container col-12 col-xl-5 mt-4">
                 <div class="card border shadow mb-5 bg-white rounded">
                     <div class="card">
                         <h2 class="text-center h4 card-header">Modifiez votre profil</h2>
@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </section>
-            <section class="container col-5 mt-4">
+            <section class="container col-xl-5 col-12 mt-4">
                 <div class="card border shadow mb-5 bg-white rounded">
                     <div class="card">
                         <h2 class="text-center h4 card-header-2 card-header">Supprimez votre profil</h2>
@@ -115,7 +115,7 @@ export default {
             this.SET_USER_DATAS(this.user);
             alert("Le profil a été modifié")
             this.$router.replace({
-                name: 'Home'
+                name: 'Profile'
             });
 
             })

@@ -1,4 +1,10 @@
+const jsonwebtoken = require('jsonwebtoken');
 const Post = require('../models/Post');
+const dateTime = require('node-datetime');
+
+// DateTime
+const createDateTime = dateTime.create();
+const formatDateTime = createDateTime.format('d/m/y H:M');
 
 //Create post
 exports.createPost = (req, res, next) => {
@@ -7,20 +13,20 @@ exports.createPost = (req, res, next) => {
             message: "Ce contenu ne peut pas être vide !",
         });
     }
-    const post = new post({
+    const post = new Post({
         description: req.body.description,
         media: req.body.media,
-        creation_datePost: req.body.creation_datePost,
+        creation_date: formatDateTime,
         user_id: req.body.user_id
     });
-    post.create(post, (err, data) => {
+    Post.create(post, (err, data) => {
         if (err) {
             res.status(500).send({
                 message: err.message || "Des erreurs se sont produites !",
             });
         }
-        res.send(data);
-    });
+        res.status(200).send(data)
+    })
 };
 
 //Delete post
@@ -41,7 +47,7 @@ exports.updatePost = (req, res, next) => {
 
 //Get all post
 exports.getPosts = (req, res, next) => {
-    post.findAll((err, data) => {
+    Post.findAll((err, data) => {
         if(err){
             res.status(500).send({
                 message: err.message || "Des erreurs se sont produites",
@@ -49,6 +55,27 @@ exports.getPosts = (req, res, next) => {
         }
         res.send(data);
     })
+};
+
+//Get user post
+exports.getUserPosts = (req, res) => {
+    Post.findByUser(req.params.user_id)
+    .then(posts => res.status(200).json(posts))
+    .catch(error => res.status(404).json({ error }));
+};
+
+//Get number of post by user
+exports.countUserPosts = (req, res) => {
+    Post.countByUser(req.params.user_id)
+    .then(countPosts => res.status(200).json(countPosts))
+    .catch(error => res.status(404).json({ error }));
+};
+
+//Get datas of user
+exports.getUserDatas = (req, res) => {
+    Post.findDatasOfUser(req.params.user_id)
+    .then(countPosts => res.status(200).json(countPosts))
+    .catch(error => res.status(404).json({ error }));
 };
 
 //Get all post by creation date
@@ -63,9 +90,9 @@ exports.getPostsByCreationDate = (req, res, next) => {
     })
 };
 
-//Get all post by modification date
-exports.getPostsByModificationDate = (req, res, next) => {
-    post.findAllByModificationDate((err, data) => {
+//Get all post by update date
+exports.getPostsByUpdateDate = (req, res, next) => {
+    post.findAllByUpdateDate((err, data) => {
         if(err){
             res.status(500).send({
                 message: err.message || "Des erreurs se sont produites",
@@ -73,11 +100,4 @@ exports.getPostsByModificationDate = (req, res, next) => {
         }
         res.send(data);
     })
-};
-
-//Get post by id
-exports.getOnePost = (req, res, next) => {
-    post.findOne(req.params.id)
-    .then(post => res.status(200).json(post))
-    .catch(error => res.status(404).json({ error }));
 };

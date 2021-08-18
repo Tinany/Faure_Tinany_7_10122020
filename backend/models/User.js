@@ -53,7 +53,7 @@ User.updateOne = (user_id, user) => {
                     console.log(" La modification a échoué " + error);
                 } else {
                     resolve (result);
-                    console.log(" L'utilisateur " + {id: user_id } + " a été modifié !");
+                    console.log(" L'utilisateur " + { id: user_id } + " a été modifié !");
                 }
             }
         )

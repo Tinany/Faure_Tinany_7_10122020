@@ -38,6 +38,12 @@ const routes = [
     name: 'UpdateProfile',
     component: () => import('../components/Update/UpdateProfile.vue'),
     beforeEnter: isAuthenticated
+  },
+  {
+    path: '/UpdatePost',
+    name: 'UpdatePost',
+    component: () => import('../components/Update/UpdatePost.vue'),
+    beforeEnter: isAuthenticated
   }
 ]
 
