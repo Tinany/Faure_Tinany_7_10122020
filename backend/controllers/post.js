@@ -1,10 +1,12 @@
 const jsonwebtoken = require('jsonwebtoken');
-const Post = require('../models/Post');
-const dateTime = require('node-datetime');
 
 // DateTime
-const createDateTime = dateTime.create();
-const formatDateTime = createDateTime.format('d/m/y H:M');
+const moment = require("moment");
+
+const dateTime = moment().format("YYYY-MM-DD HH:mm:ss");
+
+//Models
+const Post = require('../models/Post');
 
 //Create post
 exports.createPost = (req, res, next) => {
@@ -16,8 +18,11 @@ exports.createPost = (req, res, next) => {
     const post = new Post({
         description: req.body.description,
         media: req.body.media,
-        creation_date: formatDateTime,
-        user_id: req.body.user_id
+        creation_date: dateTime,
+        user_id: req.body.user_id,
+        user_last_name: req.body.user_last_name,
+        user_first_name: req.body.user_first_name,
+        user_profile_picture: req.body.user_profile_picture
     });
     Post.create(post, (err, data) => {
         if (err) {
@@ -31,16 +36,14 @@ exports.createPost = (req, res, next) => {
 
 //Delete post
 exports.deletePost = (req, res, next) => {
-    post.deleteOne(req.params.post_id)
+    Post.deleteOne(req.params.post_id)
     .then(post => res.status(200).json(post))
     .catch(error => res.status(404).json ({ error }));
 };
 
 //Update post
 exports.updatePost = (req, res, next) => {
-    let post  = req.body;
-    let post_id = req.params.post_id;
-    post.updateOne(post_id, post)
+    Post.updateOne(req.params.post_id, (req.body))
     .then(() => res.status(200).json({ message: 'La publication a bien été modifié !'}))
     .catch(error => res.status(404).json({ error }));
 };
@@ -67,13 +70,6 @@ exports.getUserPosts = (req, res) => {
 //Get number of post by user
 exports.countUserPosts = (req, res) => {
     Post.countByUser(req.params.user_id)
-    .then(countPosts => res.status(200).json(countPosts))
-    .catch(error => res.status(404).json({ error }));
-};
-
-//Get datas of user
-exports.getUserDatas = (req, res) => {
-    Post.findDatasOfUser(req.params.user_id)
     .then(countPosts => res.status(200).json(countPosts))
     .catch(error => res.status(404).json({ error }));
 };

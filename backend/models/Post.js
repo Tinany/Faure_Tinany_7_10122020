@@ -4,7 +4,10 @@ const database = require('../config/database');
 const Post = function(post) {
     this.description = post.description,
     this.media = post.media,
-    this.user_id = post.user_id
+    this.user_id = post.user_id,
+    this.user_last_name = post.user_last_name,
+    this.user_first_name = post.user_first_name,
+    this.user_profile_picture = post.user_profile_picture
 };
 
 //Post creation
@@ -25,17 +28,17 @@ Post.create = (newPost, result) => {
 };
 
 //Update post
-Post.updateOne = (postId, post) => {
+Post.updateOne = (post_id, post) => {
     return new Promise((resolve, reject) => {
         database.query(
-            `UPDATE groupomania.post SET description="${post.description}", media="${post.media}" WHERE id="${post.id}"`,
+            `UPDATE groupomania.post SET description="${post.description}", media="${post.media}" WHERE id="${post_id}"`,
             function (error, result) {
                 if (error) {
                     reject (error);
                     console.log("error :" + error);
                 } else {
                     resolve (result);
-                    console.log("La publication " + {id: postId, ...Post} + "a bien été modifié !");
+                    console.log("La publication " + { id: post_id } + "a bien été modifié !");
                 }
             }
         )
@@ -78,23 +81,7 @@ Post.findByUser = (user_id) => {
 Post.countByUser = (user_id) => {
     return new Promise ((resolve, reject) => {
         database.query(
-            `SELECT COUNT(*) FROM groupomania.post WHERE user_id=${user_id}`,
-            function (error, result) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(result);
-                }
-            }
-        )
-    })
-};
-
-//Get user name 
-Post.findDatasOfUser = (user_id) => {
-    return new Promise ((resolve, reject) => {
-        database.query(
-            `SELECT first_name, last_name, profile_picture FROM groupomania.user INNER JOIN groupomania.post ON user.id = post.user_id LIMIT 1`,
+            `SELECT COUNT(1) FROM groupomania.post WHERE user_id=${user_id}`,
             function (error, result) {
                 if (error) {
                     reject(error);

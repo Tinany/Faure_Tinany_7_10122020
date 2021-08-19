@@ -10,7 +10,7 @@
                 <div class="form-group">
                     <textarea rows="5" class="form-control rounded-1 card-body" name="description" placeholder="Écrivez quelques choses..." v-model="post.description"></textarea>
                 </div>
-                  <input class="form-group input" v-model="post.media" placeholder="Saisir l'url de l'image ici" type="text"/>
+                <input class="form-group input" v-model="post.media" placeholder="Saisir l'url de l'image ici" type="text"/>
                 <button type="submit" class="btn color-btn" @click="createPost()">Ajouter</button>
             </div>
         </div>
@@ -29,6 +29,9 @@ export default {
         description: null,
         media: null,
         user_id: null,
+        user_last_name: null,
+        user_first_name: null,
+        user_profile_picture: null
       },
       errorMessage: "",
       successMessage: "",
@@ -45,7 +48,10 @@ export default {
       axios.post("http://localhost:3000/api/post/createPost", {
           description: this.post.description,
           media: this.post.media,
-          user_id: this.user_id
+          user_id: this.user_id,
+          user_last_name: this.user_last_name,
+          user_first_name: this.user_first_name,
+          user_profile_picture: this.user_profile_picture
         })
         .then(response => {
           this.successMessage = response.data.message;
@@ -80,6 +86,6 @@ export default {
 }
 
 .userName {
-  margin-top: 5%;
+  margin-top: 4%;
 }
 </style>

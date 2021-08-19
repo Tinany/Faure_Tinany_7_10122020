@@ -1,11 +1,18 @@
 <template>
   <div class="container">
     <section>
-        <h3 class="text-center font-weight-bold text-danger mb-5">Les dernières publications partagées par les utilisateurs</h3>
+        <h3 class="text-center font-weight-bold text-danger mb-5 h2">Les dernières publications partagées</h3>
         <div class="posts card mb-3 shadow" v-for="post in posts.post" :key="post">
             <div class="card-header">
                 <div class="user d-flex justify-content-between">
-                  {{ userName }}
+                  <div class="d-flex mb-3">
+                    <div class="user_profile_picture">
+                      <img v-bind:src=" post.user_profile_picture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" alt="user picture" width="80" height="80" class="img-thumbnail mr-3">
+                    </div>
+                    <div class="userName mt-3">
+                      <span class="font-weight-bold">{{ post.user_first_name }} {{ post.user_last_name }}</span> a partagé une publication, il y a 
+                    </div>
+                  </div>
                   <div v-if="post.user_id === user_id">
                     <button href="" class="btn btn-danger btn-sm btn-block" @click="showUpdatePostPage()">Edit post</button>
                   </div>
@@ -36,7 +43,6 @@ export default {
   data() {
     return {
       posts: {},
-      userName: null,
       updatePost: false
     }
   },
@@ -52,17 +58,7 @@ export default {
       .catch(function (error) {
         console.log(error);
       });
-
-    axios.get(`http://localhost:3000/api/post/userDatas/${this.user_id}`)
-      .then((response) => {
-        console.log(response.data);
-        this.userName = response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
   },
-
   methods: {
         showUpdatePostPage() {
           this.$router.push({
