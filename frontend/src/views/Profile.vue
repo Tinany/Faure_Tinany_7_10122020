@@ -10,29 +10,24 @@
             <div class="px-4 pt-0 pb-4 cover">
                 <div class="media align-items-end profile-head">
                   <div class="profile mr-3">
-                    <img v-bind:src=" user_profile_picture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" alt="photo de profil" width="130" class="rounded mb-2 img-thumbnail">
+                    <img v-bind:src=" userDatas.profile_picture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" alt="photo de profil" width="130" class="rounded mb-2 img-thumbnail">
                     <button href="" class="btn btn-outline-dark btn-sm btn-block" @click="showUpdateProfilePage()">Edit profile</button>
                   </div>
-                  <div class="mb-5 text-white">
-                      <h4 class="mt-0 mb-0">{{ user_first_name }} {{ user_last_name }}</h4>
-                      <p class="mb-4">{{ user_city }}</p>
+                  <div class="mb-5 text-white" id="name">
+                      <h4>{{ userDatas.first_name }} {{ userDatas.last_name }}</h4>
+                      <p class="mb-4">{{ userDatas.city }}</p>
                   </div>
                 </div>
             </div>
             <div class="bg-light p-4 d-flex justify-content-end text-center">
               <ul class="list-inline mb-0">
                   <li class="list-inline-item">
-                    <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted mr-1">Posts</small>
+                    <h5 class="font-weight-bold mb-0 d-block">{{}}</h5><small class="text-muted mr-1">Posts</small>
                   </li>
                   <li class="list-inline-item">
                     <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted mr-1">Comments</small>
                   </li>
               </ul>
-            </div>
-            <div class="py-4 px-4">
-              <div class="d-flex align-items-center justify-content-between mb-3">
-                <h5 class="mb-0">Recent posts</h5><a href="#" class="btn btn-link text-muted">Show all</a>
-              </div>
             </div>
           </div>
         </div>
@@ -45,9 +40,9 @@
 </template>
 
 <script>
+import axios from "axios";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import { mapState } from "vuex";
 
 export default {
   name: "Profile",
@@ -55,9 +50,28 @@ export default {
     Header,
     Footer
   },
-  computed: {
-    ...mapState(["user_last_name", "user_first_name", "user_city", "user_profile_picture"])
+
+  data() {
+    return {
+      userDatas: {},
+      countPost: null
+    }
   },
+
+  mounted() {
+
+      this.userDatas = JSON.parse(localStorage.getItem("user"))
+
+      axios.get(`http://localhost:3000/api/post/countUserPosts/${this.user_id}`)
+      .then((response) => {
+        console.log(response.data);
+        this.countPost = response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  },
+
   methods : {
 
     showUpdateProfilePage() {

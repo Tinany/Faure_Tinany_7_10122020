@@ -20,6 +20,11 @@ export default createStore({
     post_description: null,
     post_media: null,
     post_creation_date: null,
+
+    //Comment 
+    comment_id: null,
+    comment_description: null,
+    comment_creation_date: null
   },
 
   getters: {
@@ -61,6 +66,18 @@ export default createStore({
     },
     post_creation_date(state) {
       return state.post_creation_date
+    },
+
+    //Comment 
+
+    comment_id(state) {
+      return state.comment_id
+    },
+    comment_description(state) {
+      return state.comment_description
+    },
+    comment_creation_date(state) {
+      return state.comment_creation_date
     }
     
   },
@@ -124,7 +141,28 @@ export default createStore({
       state.post_description = data.description
       state.post_media = data.media
       state.post_creation_date = data.creation_date
+    },
+
+    //Comment 
+
+    SET_COMMENT_ID(state, data) {
+      state.comment_id = data
+    },
+    SET_COMMENT_DESCRIPTION(state, data) {
+      state.comment_description = data
+    },
+    SET_COMMENT_CREATION_DATE(state, data) {
+      state.comment_creation_date = data
+    },
+    SET_COMMENT_DATAS(state, data) {
+      if(data.token) {
+        state.token = data.token
+      }
+      state.comment_id = data.id
+      state.comment_description = data.description
+      state.comment_creation_date = data.creation_date
     }
+
   },
 
   actions: {

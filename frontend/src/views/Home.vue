@@ -8,7 +8,7 @@
                 <AddNewPost/>
             </section>
             <section>
-                <Post/>
+                <Posts/>
             </section>
         </main>
         <footer>
@@ -21,14 +21,14 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 import AddNewPost from '@/views/AddNewPost.vue'
-import Post from '@/views/Post.vue'
+import Posts from '@/views/Posts.vue'
 
     export default {
         name: 'Home',
         components: {
             Header,
             AddNewPost,
-            Post,
+            Posts,
             Footer
         }
     }

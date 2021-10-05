@@ -1,7 +1,7 @@
 // Technologies used
 const express = require('express');
 const bodyParser = require('body-parser');
-//const path = require('path');
+const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
 // Express app
@@ -29,6 +29,7 @@ const  limiter  =  rateLimit ({
   
 // Data processing
 app.use(bodyParser.json());
+app.use(helmet());
 app.use ('/api/' ,  limiter);
 
 app.use('/api/auth', userRoutes);

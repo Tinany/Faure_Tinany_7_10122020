@@ -19,7 +19,7 @@ exports.createComment = (req, res) => {
             });
         }
         console.log(data);
-        res.send(data);
+        res.status(200).send(data);
     });
 };
 

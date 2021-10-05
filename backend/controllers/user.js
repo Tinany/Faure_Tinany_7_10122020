@@ -1,11 +1,11 @@
 //Technologies used
 const bcrypt = require('bcryptjs');
 const jsonwebtoken = require('jsonwebtoken');
-const dateTime = require('node-datetime');
 
 // DateTime
-const createDateTime = dateTime.create();
-const formatDateTime = createDateTime.format('d/m/y H:M');
+const moment = require("moment");
+
+const dateTime = moment().format("YYYY-MM-DD HH:mm:ss");
 
 // Model
 const User = require('../models/User');
@@ -19,7 +19,7 @@ exports.signup = (req, res) => {
                 first_name: req.body.first_name,
                 last_name: req.body.last_name,
                 city: req.body.city,
-                creation_date: formatDateTime,
+                creation_date: dateTime,
                 mail: req.body.mail,
                 password: hash,
                 moderator: 0
