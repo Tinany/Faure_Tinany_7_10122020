@@ -3,7 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 // DateTime
 const moment = require("moment");
 
-const dateTime = moment().format("YYYY-MM-DD HH:mm:ss");
+// const dateTime = moment().format("YYYY-MM-DD HH:mm:ss");
 
 //Models
 const Post = require('../models/Post');
@@ -18,11 +18,8 @@ exports.createPost = (req, res, next) => {
     const post = new Post({
         description: req.body.description,
         media: req.body.media,
-        creation_date: dateTime,
-        user_id: req.body.user_id,
-        user_last_name: req.body.user_last_name,
-        user_first_name: req.body.user_first_name,
-        user_profile_picture: req.body.user_profile_picture
+        // creation_date: dateTime,
+        user_id: req.body.user_id
     });
     Post.create(post, (err, data) => {
         if (err) {

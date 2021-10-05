@@ -4,10 +4,7 @@ const database = require('../config/database');
 const Post = function(post) {
     this.description = post.description,
     this.media = post.media,
-    this.user_id = post.user_id,
-    this.user_last_name = post.user_last_name,
-    this.user_first_name = post.user_first_name,
-    this.user_profile_picture = post.user_profile_picture
+    this.user_id = post.user_id
 };
 
 //Post creation

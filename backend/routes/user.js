@@ -11,7 +11,6 @@ const auth = require('../middleware/auth');
 //Users routes
 router.post('/signup', checkSignUp, validatePassword, userController.signup);
 router.post('/login', userController.login);
-
 router.delete('/user/delete/:user_id', auth, userController.deleteUser);
 router.patch('/user/update/:user_id', auth, userController.updateUser);
 
