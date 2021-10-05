@@ -21,26 +21,19 @@
 
 <script>
 import axios from "axios";
-import { mapMutations } from "vuex";
 
 export default {
     name: "Login",
     data() {
         return {
-            id: null,
             mail: null,
             password: null,
-            first_name: null,
-            last_name: null,
-            city: null,
-            creation_date: null,
             errorMessage: "",
             successMessage: ""
         };
     },
 
     methods: {
-        ...mapMutations(["SET_USER_DATAS"]),
         login() {
 
             if (this.mail === "" || this.mail === null) {
@@ -55,18 +48,14 @@ export default {
             } else {
 
                 axios.post("http://localhost:3000/api/auth/login", {
-                id: this.id,
                 mail: this.mail,
                 password: this.password,
-                first_name: this.first_name,
-                last_name: this.last_name,
-                city: this.city,
-                creation_date: this.creation_date
                 })
 
             .then((response) => {
             this.successMessage = response.data.message;
-            this.SET_USER_DATAS(response.data)
+
+            localStorage.setItem("user", JSON.stringify(response.data)),
 
             axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.token,
 

@@ -10,12 +10,12 @@
             <div class="px-4 pt-0 pb-4 cover">
                 <div class="media align-items-end profile-head">
                   <div class="profile mr-3">
-                    <img v-bind:src=" user_profile_picture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" alt="photo de profil" width="130" class="rounded mb-2 img-thumbnail">
+                    <img v-bind:src=" userDatas.profile_picture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" alt="photo de profil" width="130" class="rounded mb-2 img-thumbnail">
                     <button href="" class="btn btn-outline-dark btn-sm btn-block" @click="showUpdateProfilePage()">Edit profile</button>
                   </div>
-                  <div class="mb-5 text-white">
-                      <h4 class="mt-0 mb-0">{{ user_first_name }} {{ user_last_name }}</h4>
-                      <p class="mb-4">{{ user_city }}</p>
+                  <div class="mb-5 text-white" id="name">
+                      <h4>{{ userDatas.first_name }} {{ userDatas.last_name }}</h4>
+                      <p class="mb-4">{{ userDatas.city }}</p>
                   </div>
                 </div>
             </div>
@@ -43,7 +43,6 @@
 import axios from "axios";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import { mapState } from "vuex";
 
 export default {
   name: "Profile",
@@ -54,15 +53,15 @@ export default {
 
   data() {
     return {
+      userDatas: {},
       countPost: null
     }
   },
 
-  computed: {
-    ...mapState(["user_last_name", "user_first_name", "user_city", "user_profile_picture", "user_id"])
-  },
-
   mounted() {
+
+      this.userDatas = JSON.parse(localStorage.getItem("user"))
+
       axios.get(`http://localhost:3000/api/post/countUserPosts/${this.user_id}`)
       .then((response) => {
         console.log(response.data);

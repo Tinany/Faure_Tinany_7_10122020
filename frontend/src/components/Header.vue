@@ -14,7 +14,7 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/" class="nav-link mt-md-3 mt-lg-3 mt-xl-3 font-weight-bold h5">Déconnexion</router-link>
+                    <button class=" btn nav-link mt-md-3 mt-lg-3 mt-xl-3 font-weight-bold h5" @click="LogOut()">Déconnexion</button>
                 </li>
             </ul>
         </nav>
@@ -23,7 +23,17 @@
 
 <script>
     export default {
-        name: 'Header'
+        name: 'Header',
+
+        methods: {
+            LogOut() {
+                localStorage.clear(),
+
+                this.$router.push({
+                    name: 'Login'
+                    })
+            }
+        }
     }
 </script>
 

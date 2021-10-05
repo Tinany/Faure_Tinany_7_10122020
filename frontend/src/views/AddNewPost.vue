@@ -4,8 +4,8 @@
             <div class="card">
                 <h2 class="text-center h4 card-header">Créez une nouvelle publication</h2>
                 <div class="form-group ml-3 mr-3 d-flex">
-                  <img v-bind:src=" user_profile_picture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" alt="user picture" width="80" class="img-thumbnail mt-3">
-                  <h3 class="userName ml-3 h5 mb-0">{{ user_first_name }} {{ user_last_name }}</h3>
+                  <img v-bind:src=" userDatas.profile_picture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" alt="user picture" width="80" class="img-thumbnail mt-3">
+                  <h3 class="userName ml-3 h5 mb-0">{{ userDatas.first_name }} {{ userDatas.last_name }}</h3>
                 </div>
                 <div class="form-group">
                     <textarea rows="5" class="form-control rounded-1 card-body" name="description" placeholder="Écrivez quelques choses..." v-model="post.description"></textarea>
@@ -25,6 +25,7 @@ export default {
   name: "AddNewPost",
   data() {
     return {
+      userDatas: {},
       post: {
         description: null,
         media: null,
@@ -38,8 +39,12 @@ export default {
     }
   },
     computed: {
-      ...mapState(["user_id", "user_last_name", "user_first_name", "user_profile_picture"])
+      ...mapState(["user_id", "user_last_name", "user_first_name", "user_profile_picture"]),
   },
+    mounted() {
+        this.userDatas = JSON.parse(localStorage.getItem("user"))
+      },
+
     methods: {
     ...mapMutations(["SET_POST_DATAS"]),
 

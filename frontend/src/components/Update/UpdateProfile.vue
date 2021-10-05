@@ -12,21 +12,21 @@
                             <div class="row">
                                 <div class="col ml-2 mt-2">
                                     <label for="Last_Name" class="sr-only">Nom</label>
-                                    <input type="text" id="last_name" class="form-control mb-2" placeholder="Nom" autofocus="" v-model="user.last_name">
+                                    <input type="text" id="last_name" class="form-control mb-2" placeholder="Nom" autofocus="" v-model="userDatas.last_name">
                                 </div>
                                 <div class="col mr-2 mt-2">
                                     <label for="First_Name" class="sr-only">Prénom</label>
-                                    <input type="text" id="first_name" class="form-control mb-2" placeholder="Prénom" autofocus="" v-model="user.first_name">
+                                    <input type="text" id="firstName" class="form-control mb-2" placeholder="Prénom" autofocus="" v-model="userDatas.first_name">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col ml-2">
                                     <label for="City" class="sr-only">Ville</label>
-                                    <input type="text" id="city" class="form-control mb-2" placeholder="Ville"  autofocus="" v-model="user.city">
+                                    <input type="text" id="city" class="form-control mb-2" placeholder="Ville"  autofocus="" v-model="userDatas.city">
                                 </div>
                                 <div class="col mr-2">
                                     <label for="image" class="sr-only">Photo de profil :</label>
-                                    <input class="form-control color-focus" placeholder="Saisir l'url de l'image ici" type="text" v-model="user.profile_picture">
+                                    <input class="form-control color-focus" placeholder="Saisir l'url de l'image ici" type="text" v-model="userDatas.profile_pictrure">
                                 </div>
                             </div>
                         </div>
@@ -42,19 +42,19 @@
                             <div class="col mt-2">
                                 <div class="row ml-2">
                                     <p class="mt-2 font-weight-bold mr-1">Votre Prénom :</p>
-                                    <p class="mt-2"> {{ user.first_name }}</p>
+                                    <p class="mt-2"> {{ userDatas.first_name }}</p>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="row ml-2">
                                     <p class="mt-2 font-weight-bold mr-1">Votre Nom :</p>
-                                    <p class="mt-2"> {{ user.last_name }}</p>
+                                    <p class="mt-2"> {{ userDatas.last_name }}</p>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="row ml-2">
                                     <p class="mt-2 font-weight-bold mr-1">Vous êtes parmis nous depuis le :</p>
-                                    <p class="mt-2">{{ user.creation_date }}</p>
+                                    <p class="mt-2">{{ userDatas.creation_date }}</p>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,6 @@
 import axios from "axios";
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
-import { mapState, mapMutations,  mapActions } from "vuex";
 
 export default {
     name: 'UpdateProfile',
@@ -83,40 +82,33 @@ export default {
     },
     data() {
         return {
-            user: {
-                id: null,
-                last_name: null,
-                first_name: null,
-                city: null,
-                profile_picture: null
-            },
+            userDatas: {},
+            last_name: null,
+            first_name: null,
+            city: null,
+            profile_picture: null,
             errorMessage: "",
             successMessage: "",
         };
     },
-        computed: {
-            ...mapState(["user_last_name", "user_first_name", "user_city", "user_profile_picture", "user_id", "user_creation_date"])
-        },
         methods: {
-            ...mapMutations(["SET_USER_DATAS"]),
-            ...mapActions(["logout"]),
 
         updateUser() {
 
-            axios.patch(`http://localhost:3000/api/auth/user/update/${this.user_id}`, {
-            last_name: this.user.last_name,
-            first_name: this.user.first_name,
-            city: this.user.city,
-            profile_picture_picture: this.profile_picture
+            axios.patch(`http://localhost:3000/api/auth/user/update/${this.userDatas.id}`, {
+            last_name: this.last_name,
+            first_name: this.first_name,
+            city: this.city,
+            profile_picture: this.profile_picture
             })
 
             .then((response) => {
             this.successMessage = response.data.message;
-            this.SET_USER_DATAS(this.user);
+            localStorage.setItem("user", JSON.stringify(response.data)),
             alert("Le profil a été modifié")
             this.$router.replace({
                 name: 'Profile'
-            });
+                });
 
             })
 
@@ -126,7 +118,7 @@ export default {
         },
 
         deleteUser() {
-            axios.delete(`http://localhost:3000/api/auth/user/delete/${this.user_id}`, {
+            axios.delete(`http://localhost:3000/api/auth/user/delete/${this.userDatas.id}`, {
 
             })
             .then(() => {
@@ -140,13 +132,7 @@ export default {
         }
     },
     mounted() {
-        this.user.id = this.user_id
-        this.user.last_name = this.user_last_name
-        this.user.first_name = this.user_first_name
-        this.user.city = this.user_city
-        this.user.profile_picture = this.user_profile_picture
-        this.user.creation_date = this.user_creation_date
-        console.log(this.$store.state)
+        this.userDatas = JSON.parse(localStorage.getItem("user"))
     }
 }
 </script>

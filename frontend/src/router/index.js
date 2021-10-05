@@ -1,11 +1,12 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Login from '../components/Connexion/Login.vue'
 import SignUp from '../components/Connexion/SignUp.vue'
-import store from '../store/index.js'
 
 const isAuthenticated = (req, res, next) => {
-  if(!store.getters.authenticated) {
+  if(localStorage.getItem('user') === null) {
     next({name: 'Login'})
+  } else {
+    localStorage.getItem('user')
   }
     next()
 }
