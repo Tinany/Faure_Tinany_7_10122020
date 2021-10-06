@@ -55,7 +55,16 @@ export default {
             .then((response) => {
             this.successMessage = response.data.message;
 
-            localStorage.setItem("user", JSON.stringify(response.data)),
+            let userDatas = {last_name: response.data.last_name,
+                             first_name: response.data.first_name,
+                             city: response.data.city,
+                             creation_date: response.data.creation_date,
+                             profile_picture: response.data.profile_picture
+                             }
+
+            localStorage.setItem("user", JSON.stringify(userDatas)),
+            localStorage.setItem("userId", JSON.stringify(response.data.id)),
+            localStorage.setItem("token", JSON.stringify(response.data.token)),
 
             axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.token,
 

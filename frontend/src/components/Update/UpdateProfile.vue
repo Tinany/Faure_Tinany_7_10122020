@@ -12,21 +12,21 @@
                             <div class="row">
                                 <div class="col ml-2 mt-2">
                                     <label for="Last_Name" class="sr-only">Nom</label>
-                                    <input type="text" id="last_name" class="form-control mb-2" placeholder="Nom" autofocus="" v-model="userDatas.last_name">
+                                    <input type="text" id="lastName" class="form-control mb-2" placeholder="Nom" autofocus="" v-model="datas.last_name">
                                 </div>
                                 <div class="col mr-2 mt-2">
                                     <label for="First_Name" class="sr-only">Prénom</label>
-                                    <input type="text" id="firstName" class="form-control mb-2" placeholder="Prénom" autofocus="" v-model="userDatas.first_name">
+                                    <input type="text" id="firstName" class="form-control mb-2" placeholder="Prénom" autofocus="" v-model="datas.first_name">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col ml-2">
                                     <label for="City" class="sr-only">Ville</label>
-                                    <input type="text" id="city" class="form-control mb-2" placeholder="Ville"  autofocus="" v-model="userDatas.city">
+                                    <input type="text" id="city" class="form-control mb-2" placeholder="Ville"  autofocus="" v-model="datas.city">
                                 </div>
                                 <div class="col mr-2">
                                     <label for="image" class="sr-only">Photo de profil :</label>
-                                    <input class="form-control color-focus" placeholder="Saisir l'url de l'image ici" type="text" v-model="userDatas.profile_pictrure">
+                                    <input class="form-control color-focus" placeholder="Saisir l'url de l'image ici" type="text" v-model="datas.profile_picture">
                                 </div>
                             </div>
                         </div>
@@ -83,10 +83,13 @@ export default {
     data() {
         return {
             userDatas: {},
-            last_name: null,
-            first_name: null,
-            city: null,
-            profile_picture: null,
+            datas: {
+                last_name: null,
+                first_name: null,
+                city: null,
+                profile_picture: null
+            },
+            userNewDatas: "",
             errorMessage: "",
             successMessage: "",
         };
@@ -95,16 +98,16 @@ export default {
 
         updateUser() {
 
-            axios.patch(`http://localhost:3000/api/auth/user/update/${this.userDatas.id}`, {
-            last_name: this.last_name,
-            first_name: this.first_name,
-            city: this.city,
-            profile_picture: this.profile_picture
-            })
+            this.userNewDatas = JSON.stringify(this.datas);
+
+            axios.patch(`http://localhost:3000/api/auth/user/update/${this.userId}`, 
+            
+            this.userNewDatas, 
+            {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.token}})
 
             .then((response) => {
             this.successMessage = response.data.message;
-            localStorage.setItem("user", JSON.stringify(response.data)),
+            localStorage.setItem("user", this.userNewDatas)
             alert("Le profil a été modifié")
             this.$router.replace({
                 name: 'Profile'
@@ -118,12 +121,13 @@ export default {
         },
 
         deleteUser() {
-            axios.delete(`http://localhost:3000/api/auth/user/delete/${this.userDatas.id}`, {
+            axios.delete(`http://localhost:3000/api/auth/user/delete/${this.userId}`, 
+            {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.token}})
 
-            })
             .then(() => {
                 alert('Le profil a bien été supprimé');
-                this.logout();
+                localStorage.clear();
+                this.$router.push('/'); 
             })
             .catch(error => {
               console.log(error);
@@ -131,8 +135,11 @@ export default {
           })
         }
     },
+
     mounted() {
         this.userDatas = JSON.parse(localStorage.getItem("user"))
+        this.userId = JSON.parse(localStorage.getItem("userId"))
+        this.token = JSON.parse(localStorage.getItem("token"))
     }
 }
 </script>

@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 
@@ -53,23 +52,13 @@ export default {
 
   data() {
     return {
-      userDatas: {},
-      countPost: null
+      userDatas: {}
     }
   },
 
   mounted() {
 
       this.userDatas = JSON.parse(localStorage.getItem("user"))
-
-      axios.get(`http://localhost:3000/api/post/countUserPosts/${this.user_id}`)
-      .then((response) => {
-        console.log(response.data);
-        this.countPost = response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
   },
 
   methods : {
