@@ -2,7 +2,7 @@
     <section class="container">
         <img src="@/assets/icon.png" alt="" width="280" height="280" class="mx-auto d-block">
         <h1 class="h2 ml-3 font-weight-bold text-danger text-center mb-4">Groupomania</h1>
-        <div class="mx-auto d-block col-md-5 col-lg-4">
+        <div class="mx-auto d-block col-12 col-sm-11 col-md-8 col-lg-7 col-xl-5">
             <div class="form-signin row">
                 <div class="col">
                     <label for="Last_Name" class="sr-only">Nom</label>

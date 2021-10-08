@@ -18,7 +18,7 @@
             </section>
         </main>
         <footer>
-            <Footer/>
+            <Footer class="fixed-bottom"/>
         </footer> 
     </div>
 </template>

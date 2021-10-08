@@ -1,7 +1,7 @@
 <template>
-  <div class="text-center text-white font-weight-bold p-3 footer fixed-bottom">
+  <div class="text-center font-weight-bold p-3 footer">
     © 2021 Copyright -
-    <a class="text-white font-weight-bold" href="https://groupomania.com/">Groupomania</a>
+    <a class="font-weight-bold color" href="https://groupomania.com/">Groupomania</a>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ export default {
 </script>
 
 <style scoped>
-  .footer{
-    background-color: #dc3545;
+  .color{
+    color: #dc3545;
   }
 </style>

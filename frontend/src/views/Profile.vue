@@ -22,7 +22,7 @@
             <div class="bg-light p-4 d-flex justify-content-end text-center">
               <ul class="list-inline mb-0">
                   <li class="list-inline-item">
-                    <h5 class="font-weight-bold mb-0 d-block">{{}}</h5><small class="text-muted mr-1">Posts</small>
+                    <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted mr-1">Posts</small>
                   </li>
                   <li class="list-inline-item">
                     <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted mr-1">Comments</small>
@@ -34,7 +34,7 @@
       </div>
     </main>
     <footer>
-        <Footer/>
+        <Footer class="fixed-bottom"/>
     </footer>
   </div>
 </template>
