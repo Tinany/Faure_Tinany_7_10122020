@@ -59,7 +59,8 @@ export default {
                              first_name: response.data.first_name,
                              city: response.data.city,
                              creation_date: response.data.creation_date,
-                             profile_picture: response.data.profile_picture
+                             profile_picture: response.data.profile_picture,
+                             moderator: response.data.moderator
                              }
 
             localStorage.setItem("user", JSON.stringify(userDatas)),

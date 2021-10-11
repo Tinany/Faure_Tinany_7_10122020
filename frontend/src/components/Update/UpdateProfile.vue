@@ -22,7 +22,7 @@
                             <div class="row">
                                 <div class="col ml-2">
                                     <label for="City" class="sr-only">Ville</label>
-                                    <input type="text" id="city" class="form-control mb-2" placeholder="Ville"  autofocus="" v-model="datas.city">
+                                    <input type="text" id="city" class="form-control mb-2" placeholder="Ville"  autofocus="" v-model="datas.city" >
                                 </div>
                                 <div class="col mr-2">
                                     <label for="image" class="sr-only">Photo de profil :</label>
@@ -41,19 +41,19 @@
                         <div class="form-group">
                             <div class="col mt-2">
                                 <div class="row ml-2">
-                                    <p class="mt-2 font-weight-bold mr-1">Votre Prénom :</p>
+                                    <p class="mt-2 font-weight-bold mr-1">Prénom :</p>
                                     <p class="mt-2"> {{ userDatas.first_name }}</p>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="row ml-2">
-                                    <p class="mt-2 font-weight-bold mr-1">Votre Nom :</p>
+                                    <p class="mt-2 font-weight-bold mr-1">Nom :</p>
                                     <p class="mt-2"> {{ userDatas.last_name }}</p>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="row ml-2">
-                                    <p class="mt-2 font-weight-bold mr-1">Vous êtes parmis nous depuis le :</p>
+                                    <p class="mt-2 font-weight-bold mr-1">Parmis nous depuis le :</p>
                                     <p class="mt-2">{{ userDatas.creation_date }}</p>
                                 </div>
                             </div>
@@ -87,7 +87,7 @@ export default {
                 last_name: null,
                 first_name: null,
                 city: null,
-                profile_picture: null
+                profile_picture: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
             },
             userNewDatas: "",
             errorMessage: "",

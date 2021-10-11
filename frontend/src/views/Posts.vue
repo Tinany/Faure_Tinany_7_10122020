@@ -13,7 +13,7 @@
                       <span class="font-weight-bold">{{ post.first_name }} {{ post.last_name }}</span> a partagé une publication, il y a 
                     </div>
                   </div>
-                  <div v-if="post.user_id === userId">
+                  <div v-if="post.user_id === userId || userDatas.moderator !== 0">
                     <button class="btn btn-danger btn-sm btn-block" @click="showUpdatePostPage()">Edition</button>
                   </div>
                 </div>
@@ -73,13 +73,21 @@ export default {
   methods: {
     ...mapMutations(["SET_COMMENT_DATAS"]),
 
-        showUpdatePostPage() {
-
+        showUpdatePostPage() {/*
+          axios.get(`http://localhost:3000/api/post/${this.post.id}`)
+            .then((response) => {
+              console.log(response.data);
+              this.post = response.data;
+              localStorage.setItem('post', JSON.stringify(this.post))
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
           this.$router.push({
               name: 'UpdatePost'
           })
           
-    },
+    */},
 
     addComment() {
       axios.post("http://localhost:3000/api/comment/createComment", {

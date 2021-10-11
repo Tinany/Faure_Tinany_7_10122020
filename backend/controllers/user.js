@@ -63,7 +63,8 @@ exports.login = (req, res) => {
                 last_name: data.last_name,
                 city: data.city,
                 creation_date: data.creation_date,
-                profile_picture: data.profile_picture
+                profile_picture: data.profile_picture,
+                moderator: data.moderator
             }
             res.status(200).json({
                 ...payload,

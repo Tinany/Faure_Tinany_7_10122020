@@ -55,7 +55,7 @@ import { mapState, mapMutations } from "vuex";
 
         updatePost() {
 
-            axios.patch(`http://localhost:3000/api/auth/post/update/${this.post_id}`, {
+            axios.patch(`http://localhost:3000/api/auth/post/update/${this.id}`, {
             description: this.post.description,
             media: this.post.media
             })
