@@ -41,6 +41,21 @@ Post.updateOne = (post_id, post) => {
         )
     })
 };
+// Get specific post 
+Post.findOne = (post_id) => {
+    return new Promise((resolve, reject) => {
+        database.query(
+            `SELECT FROM groupomania.post WHERE id=${post_id}`,
+            function (error, result) {
+                if (error) {
+                    reject (error);
+                } else {
+                    resolve (result);
+                }
+            }
+        )
+    })
+};
 
 //Delete one post
 Post.deleteOne = (post_id) => {
@@ -93,7 +108,7 @@ Post.countByUser = (user_id) => {
 //Find all post
 Post.findAll = (result) => {
     database.query(
-        "SELECT * FROM groupomania.post ORDER BY id DESC", (err, res) => {
+        "SELECT * FROM groupomania.post INNER JOIN user ON post.user_id = user.id ORDER BY post.id DESC", (err, res) => {
             if (err) {
                 result(err, null);
                 return;

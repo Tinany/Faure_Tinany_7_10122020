@@ -7,14 +7,14 @@
                 <div class="user d-flex justify-content-between">
                   <div class="d-flex mb-3">
                     <div class="user_profile_picture">
-                      <img v-bind:src=" post.user_profile_picture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" alt="user picture" width="80" height="80" class="img-thumbnail mr-3">
+                      <img v-bind:src=" post.profile_picture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" alt="user picture" width="80" class="img mr-3">
                     </div>
                     <div class="userName mt-3">
-                      <span class="font-weight-bold">{{ post.user_first_name }} {{ post.user_last_name }}</span> a partagé une publication, il y a 
+                      <span class="font-weight-bold">{{ post.first_name }} {{ post.last_name }}</span> a partagé une publication, il y a 
                     </div>
                   </div>
-                  <div v-if="post.user_id === user_id">
-                    <button href="" class="btn btn-danger btn-sm btn-block" @click="showUpdatePostPage()">Edit post</button>
+                  <div v-if="post.user_id === userId || userDatas.moderator !== 0">
+                    <button class="btn btn-danger btn-sm btn-block" @click="showUpdatePostPage()">Edition</button>
                   </div>
                 </div>
                 <div class="post_description"> {{ post.description }} </div>
@@ -22,8 +22,8 @@
             <img :src="post.media" class="post-media d-flex justify-content-center">
             <div class="card-footer">
                 <h4 class="comment mt-2">Commentaires :</h4>
-                <div class="newComment d-flex flex-row add-comment-section mt-4 mb-4">
-                    <img v-bind:src=" user_profile_picture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" alt="user picture" width="50" class="img-thumbnail mr-3">
+                <div class="newComment d-flex flex-row align-items-center add-comment-section mt-4 mb-4">
+                    <img v-bind:src=" userDatas.profile_picture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" alt="user picture" width="50" class="img mr-3">
                     <input v-model="comment.description" class="commentInput form-control mr-3 mt-1" placeholder="Saisissez votre commentaire..." type="text" pattern="[a-zA-ZÀ-ÿ]{1,512}" />
                     <button v-on:click.prevent="addComment()" class="comment-btn btn btn-color text-white" type="submit">Envoyer</button>
                 </div>
@@ -35,7 +35,7 @@
 
 <script>
 import axios from "axios";
-import { mapState } from "vuex";
+import { mapMutations } from "vuex";
 
 export default {
   name: "Posts",
@@ -44,6 +44,8 @@ export default {
     return {
       posts: {},
       updatePost: false,
+      userId: null,
+      userDatas: {},
       comment: {
         description: null,
         user_id: null,
@@ -51,25 +53,41 @@ export default {
       }
     }
   },
-    computed: {
-      ...mapState(["user_id", "user_last_name", "user_first_name", "user_profile_picture"]),
-  },
+
   mounted() {
+
+    this.userId = JSON.parse(localStorage.getItem("userId"))
+    this.userDatas = JSON.parse(localStorage.getItem("user"))
+    //this.token = JSON.parse(localStorage.getItem("token"))
+
     axios.get("http://localhost:3000/api/post/posts")
       .then((response) => {
         console.log(response.data);
         this.posts = response.data;
+        localStorage.setItem('postDatas', JSON.stringify(this.posts))
       })
       .catch(function (error) {
         console.log(error);
       });
   },
   methods: {
-        showUpdatePostPage() {
+    ...mapMutations(["SET_COMMENT_DATAS"]),
+
+        showUpdatePostPage() {/*
+          axios.get(`http://localhost:3000/api/post/${this.post.id}`)
+            .then((response) => {
+              console.log(response.data);
+              this.post = response.data;
+              localStorage.setItem('post', JSON.stringify(this.post))
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
           this.$router.push({
               name: 'UpdatePost'
           })
-    },
+          
+    */},
 
     addComment() {
       axios.post("http://localhost:3000/api/comment/createComment", {
@@ -104,5 +122,24 @@ export default {
 .commentInput:focus{
     border-color:#ffffff;
     box-shadow: 0 0 0 0.05rem rgb(33,52,82);
+}
+
+.comment-btn {
+  height: 40px;
+  margin-top: 5px;
+}
+.userName {
+  margin-left: 10px;
+}
+.img {
+  border: 4px solid rgb(255, 255, 255);
+  width: auto; 
+  height: 80px;
+  object-fit: contain;
+}
+.post-media{
+  width: auto; 
+  height: 500px;
+  object-fit: cover;
 }
 </style>

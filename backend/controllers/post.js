@@ -37,6 +37,13 @@ exports.deletePost = (req, res, next) => {
     .then(post => res.status(200).json(post))
     .catch(error => res.status(404).json ({ error }));
 };
+//Get specific post 
+exports.getOnePost = (req, res, next) => {
+    Post.findOne(req.params.post_id)
+    .then(post => res.status(200).json(post))
+    .catch(error => res.status(404).json ({ error }));
+};
+
 
 //Update post
 exports.updatePost = (req, res, next) => {

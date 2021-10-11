@@ -3,7 +3,7 @@
         <img src="@/assets/icon.png" alt="" width="280" height="280" class="mx-auto d-block">
         <h1 class="h2 ml-3 font-weight-bold text-danger text-center mb-4">Groupomania</h1>
         <div class="row">
-            <div class="form-signin mx-auto d-block col-md-5 col-lg-4" id="form-validation">
+            <div class="form-signin mx-auto d-block col-12 col-sm-11 col-md-8 col-lg-7 col-xl-5" id="form-validation">
                 <label for="mail" class="sr-only">Adresse email</label>
                 <input type="email" id="mail" class="form-control mb-2" placeholder="Email" required="" autofocus="" v-model="mail">
                 <label for="password" class="sr-only">Mot de passe</label>
@@ -55,7 +55,17 @@ export default {
             .then((response) => {
             this.successMessage = response.data.message;
 
-            localStorage.setItem("user", JSON.stringify(response.data)),
+            let userDatas = {last_name: response.data.last_name,
+                             first_name: response.data.first_name,
+                             city: response.data.city,
+                             creation_date: response.data.creation_date,
+                             profile_picture: response.data.profile_picture,
+                             moderator: response.data.moderator
+                             }
+
+            localStorage.setItem("user", JSON.stringify(userDatas)),
+            localStorage.setItem("userId", JSON.stringify(response.data.id)),
+            localStorage.setItem("token", JSON.stringify(response.data.token)),
 
             axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.token,
 

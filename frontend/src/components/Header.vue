@@ -14,7 +14,7 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <button class=" btn nav-link mt-md-3 mt-lg-3 mt-xl-3 font-weight-bold h5" @click="LogOut()">Déconnexion</button>
+                    <button class=" btn nav-link mt-md-3 mt-lg-3 mt-xl-3 font-weight-bold h5 logout" @click="LogOut()">Déconnexion</button>
                 </li>
             </ul>
         </nav>
@@ -57,7 +57,7 @@
         .nav-link {
             font-size: 17px;
         }
-        .recenter {
+        .recenter, .logout {
             margin-top: -3%;
         }
         .small-margin {
