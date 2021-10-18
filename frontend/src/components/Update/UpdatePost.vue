@@ -12,9 +12,14 @@
                 <input v-model="post.description" id="description" type="text" pattern="[a-zA-ZÀ-ÿ]{1,128}" class="mt-3 mb-3 ml-5 mr-5"/>
                 <h4 class="ml-3 mt-2 mb-2">Changer le média :</h4>
                 <input v-model="post.media" id="media"  class="mb-3 ml-5 mr-5" type="text" pattern="/^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+) (?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/"/>
-                <button @click="updatePost()" class="send btn btn-dark text-light" type="submit">Modifier</button>
+                <button @click="updatePost()" class="send color-btn btn btn-dark text-light" type="submit">Modifier</button>
             </section>
-            <section>
+            <section class="container col-xl-5 col-12 mt-5">
+                <div class="card border shadow mb-5 bg-white rounded">
+                    <div class="card">
+                        <button type="submit" class="btn btn-danger" @click="deletePost()">Supprimer cette publication</button>
+                    </div>
+                </div>
             </section>
         </main>
         <footer>
@@ -27,7 +32,6 @@
 import axios from "axios";
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
-import { mapState, mapMutations } from "vuex";
 
     export default {
         name: 'UpdatePost',
@@ -38,32 +42,27 @@ import { mapState, mapMutations } from "vuex";
 
         data() {
             return {
-                post: {
-                    id: null,
-                    description: null,
-                    media: null,
-                },
+                post: {},
             errorMessage: "",
             successMessage: "",
             };
         },
-        computed: {
-            ...mapState(["post_id", "post_description", "post_media"])
-        },
+
         methods: {
-            ...mapMutations(["SET_POST_DATAS"]),
 
         updatePost() {
-
-            axios.patch(`http://localhost:3000/api/auth/post/update/${this.id}`, {
+            let post_id = this.$route.params.id
+            axios.patch(`http://localhost:3000/api/auth/post/update/${post_id}`, {
             description: this.post.description,
             media: this.post.media
-            })
+            }, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.token}})
 
             .then((response) => {
             this.successMessage = response.data.message;
             this.SET_POST_DATAS(this.post);
+
             alert("La publication a été modifié")
+            
             this.$router.replace({
                 name: 'Home'
             });
@@ -76,10 +75,26 @@ import { mapState, mapMutations } from "vuex";
         },
     },
     mounted() {
-        this.post.id = this.post_id
-        this.post.description = this.post_description
-        this.post.media = this.post_media
-        console.log(this.$store.state)
+        this.token = JSON.parse(localStorage.getItem("token"))
+        let post_id = this.$route.params.id
+        
+        axios.get(`http://localhost:3000/api/post/onePost/${post_id}`,
+
+        {headers: {Authorization: 'Bearer ' + this.token}})
+            .then((response) => {
+            this.post = response.data;
+            console.log(this.post);
+        })
+        .catch(function (error) {
+        console.log(error);
+      });
     }
 }
 </script>
+
+<style scoped>
+.card-header, .color-btn{
+    background-color: rgb(33,52,82);
+    color: #fff;
+}
+</style>

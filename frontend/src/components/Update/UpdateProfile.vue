@@ -4,7 +4,7 @@
             <Header/>
         </header>
         <main>
-            <section class="updateProfile container col-12 col-xl-5 mt-4">
+            <section class="updateProfile container col-12 col-xl-6 mt-4">
                 <div class="card border shadow mb-5 bg-white rounded">
                     <div class="card">
                         <h2 class="text-center h4 card-header">Modifiez votre profil</h2>
@@ -12,21 +12,21 @@
                             <div class="row">
                                 <div class="col ml-2 mt-2">
                                     <label for="Last_Name" class="sr-only">Nom</label>
-                                    <input type="text" id="lastName" class="form-control mb-2" placeholder="Nom" autofocus="" v-model="datas.last_name">
+                                    <input type="text" id="lastName" class="form-control mb-2" placeholder="Nom" autofocus="" v-model="userDatas.last_name">
                                 </div>
                                 <div class="col mr-2 mt-2">
                                     <label for="First_Name" class="sr-only">Prénom</label>
-                                    <input type="text" id="firstName" class="form-control mb-2" placeholder="Prénom" autofocus="" v-model="datas.first_name">
+                                    <input type="text" id="firstName" class="form-control mb-2" placeholder="Prénom" autofocus="" v-model="userDatas.first_name">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col ml-2">
                                     <label for="City" class="sr-only">Ville</label>
-                                    <input type="text" id="city" class="form-control mb-2" placeholder="Ville"  autofocus="" v-model="datas.city" >
+                                    <input type="text" id="city" class="form-control mb-2" placeholder="Ville"  autofocus="" v-model="userDatas.city" >
                                 </div>
                                 <div class="col mr-2">
                                     <label for="image" class="sr-only">Photo de profil :</label>
-                                    <input class="form-control color-focus" placeholder="Saisir l'url de l'image ici" type="text" v-model="datas.profile_picture">
+                                    <input class="form-control color-focus" placeholder="Saisir l'url de l'image ici" type="text" v-model="userDatas.profile_picture">
                                 </div>
                             </div>
                         </div>
@@ -34,31 +34,10 @@
                     </div>
                 </div>
             </section>
-            <section class="container col-xl-5 col-12 mt-4">
+            <section class="container col-xl-4 col-12 mt-4">
                 <div class="card border shadow mb-5 bg-white rounded">
                     <div class="card">
-                        <h2 class="text-center h4 card-header-2 card-header">Supprimez votre profil</h2>
-                        <div class="form-group">
-                            <div class="col mt-2">
-                                <div class="row ml-2">
-                                    <p class="mt-2 font-weight-bold mr-1">Prénom :</p>
-                                    <p class="mt-2"> {{ userDatas.first_name }}</p>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="row ml-2">
-                                    <p class="mt-2 font-weight-bold mr-1">Nom :</p>
-                                    <p class="mt-2"> {{ userDatas.last_name }}</p>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="row ml-2">
-                                    <p class="mt-2 font-weight-bold mr-1">Parmis nous depuis le :</p>
-                                    <p class="mt-2">{{ userDatas.creation_date }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-danger" @click="deleteUser()">Supprimer</button>
+                        <button type="submit" class="btn btn-danger" @click="deleteUser()">Supprimer votre profil</button>
                     </div>
                 </div>
             </section>
@@ -98,7 +77,7 @@ export default {
 
         updateUser() {
 
-            this.userNewDatas = JSON.stringify(this.datas);
+            this.userNewDatas = JSON.stringify(this.userDatas);
 
             axios.patch(`http://localhost:3000/api/auth/user/update/${this.userId}`, 
             
@@ -152,10 +131,6 @@ export default {
 
 .card-header, .color-btn{
     background-color: rgb(33,52,82);
-    color: #fff;
-}
-.card-header-2 {
-    background-color: #dc3545;
     color: #fff;
 }
 </style>

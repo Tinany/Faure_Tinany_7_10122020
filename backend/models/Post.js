@@ -24,6 +24,80 @@ Post.create = (newPost, result) => {
     );
 };
 
+// Get specific post 
+Post.findOne = (post_id) => {
+    return new Promise((resolve, reject) => {
+        database.query(
+            `SELECT p.media, p.description, p.id FROM groupomania.post AS p WHERE id='${post_id}'`,
+            function (error, result) {
+                if (error) {
+                    reject (error);
+                } else {
+                    resolve (result);
+                }
+            }
+        )
+    })
+};
+
+//Find all post
+Post.findAll = (result) => {
+    database.query(
+        "SELECT p.id AS post_id, p.media, p.description, u.id as user_id, u.first_name, u.last_name, u.profile_picture FROM groupomania.post AS p INNER JOIN user AS u ON p.user_id = u.id ORDER BY p.id DESC", (err, res) => {
+            if (err) {
+                result(err, null);
+                return;
+            } else {
+                result(null, {post: res});
+            }
+        }
+    )
+};
+
+//Find all post by creation date
+Post.findAllByCreationDate = (result) => {
+    database.query(
+        "SELECT * FROM groupomania.post ORDER BY creation_date DESC", (err, res) => {
+            if (err) {
+                result(err, null);
+                return;
+            } else {
+                result(null, {post: res});
+            }
+        }
+    )
+};
+
+//Find all post by update date
+Post.findAllByUpdateDate = (result) => {
+    database.query(
+        "SELECT * FROM groupomania.post ORDER BY modification_date DESC", (err, res) => {
+            if (err) {
+                result(err, null);
+                return;
+            } else {
+                result(null, {post: res});
+            }
+        }
+    )
+};
+
+//Find post by user id
+Post.findByUser = (user_id) => {
+    return new Promise ((resolve, reject) => {
+        database.query(
+            `SELECT * FROM groupomania.post WHERE user_id=${user_id}`,
+            function (error, result) {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+            }
+        )
+    })
+};
+
 //Update post
 Post.updateOne = (post_id, post) => {
     return new Promise((resolve, reject) => {
@@ -36,21 +110,6 @@ Post.updateOne = (post_id, post) => {
                 } else {
                     resolve (result);
                     console.log("La publication " + { id: post_id } + "a bien été modifié !");
-                }
-            }
-        )
-    })
-};
-// Get specific post 
-Post.findOne = (post_id) => {
-    return new Promise((resolve, reject) => {
-        database.query(
-            `SELECT FROM groupomania.post WHERE id=${post_id}`,
-            function (error, result) {
-                if (error) {
-                    reject (error);
-                } else {
-                    resolve (result);
                 }
             }
         )
@@ -73,78 +132,5 @@ Post.deleteOne = (post_id) => {
     })
 };
 
-//Find post by user id
-Post.findByUser = (user_id) => {
-    return new Promise ((resolve, reject) => {
-        database.query(
-            `SELECT * FROM groupomania.post WHERE user_id=${user_id}`,
-            function (error, result) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(result);
-                }
-            }
-        )
-    })
-};
-
-// Count Post 
-Post.countByUser = (user_id) => {
-    return new Promise ((resolve, reject) => {
-        database.query(
-            `SELECT COUNT(1) FROM groupomania.post WHERE user_id=${user_id}`,
-            function (error, result) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(result);
-                }
-            }
-        )
-    })
-};
-
-//Find all post
-Post.findAll = (result) => {
-    database.query(
-        "SELECT * FROM groupomania.post INNER JOIN user ON post.user_id = user.id ORDER BY post.id DESC", (err, res) => {
-            if (err) {
-                result(err, null);
-                return;
-            } else {
-                result(null, {post: res});
-            }
-        }
-    )
-};
-
-//Find all post with creation date
-Post.findAllByCreationDate = (result) => {
-    database.query(
-        "SELECT * FROM groupomania.post ORDER BY creation_date DESC", (err, res) => {
-            if (err) {
-                result(err, null);
-                return;
-            } else {
-                result(null, {post: res});
-            }
-        }
-    )
-};
-
-//Find all post with update date
-Post.findAllByUpdateDate = (result) => {
-    database.query(
-        "SELECT * FROM groupomania.post ORDER BY modification_date DESC", (err, res) => {
-            if (err) {
-                result(err, null);
-                return;
-            } else {
-                result(null, {post: res});
-            }
-        }
-    )
-};
 
 module.exports = Post;

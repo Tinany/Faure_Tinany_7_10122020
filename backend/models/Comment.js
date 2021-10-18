@@ -28,7 +28,7 @@ Comment.create = (newComment, result) => {
 Comment.findAll = (post_id) => {
     return new Promise((resolve, reject) => {
         database.query(
-            `SELECT * FROM groupomania.comment WHERE post_id=${post_id}`, 
+            `SELECT c.id AS comment_id, c.description, u.id as user_id, u.first_name, u.last_name, u.profile_picture FROM groupomania.comment AS c INNER JOIN user AS u ON c.user_id = u.id WHERE post_id=${post_id} ORDER BY c.id DESC`, 
             function (error, result) {
                 if (error) { 
                     reject (error);

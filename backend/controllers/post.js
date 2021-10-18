@@ -1,5 +1,3 @@
-const jsonwebtoken = require('jsonwebtoken');
-
 // DateTime
 const moment = require("moment");
 
@@ -31,25 +29,18 @@ exports.createPost = (req, res, next) => {
     })
 };
 
-//Delete post
-exports.deletePost = (req, res, next) => {
-    Post.deleteOne(req.params.post_id)
-    .then(post => res.status(200).json(post))
-    .catch(error => res.status(404).json ({ error }));
+//Get user post
+exports.getUserPosts = (req, res) => {
+    Post.findByUser(req.params.user_id)
+    .then(posts => res.status(200).json(posts))
+    .catch(error => res.status(404).json({ error }));
 };
+
 //Get specific post 
 exports.getOnePost = (req, res, next) => {
-    Post.findOne(req.params.post_id)
+    Post.findOne(req.params.post_id, (req.body))
     .then(post => res.status(200).json(post))
     .catch(error => res.status(404).json ({ error }));
-};
-
-
-//Update post
-exports.updatePost = (req, res, next) => {
-    Post.updateOne(req.params.post_id, (req.body))
-    .then(() => res.status(200).json({ message: 'La publication a bien été modifié !'}))
-    .catch(error => res.status(404).json({ error }));
 };
 
 //Get all post
@@ -62,20 +53,6 @@ exports.getPosts = (req, res, next) => {
         }
         res.send(data);
     })
-};
-
-//Get user post
-exports.getUserPosts = (req, res) => {
-    Post.findByUser(req.params.user_id)
-    .then(posts => res.status(200).json(posts))
-    .catch(error => res.status(404).json({ error }));
-};
-
-//Get number of post by user
-exports.countUserPosts = (req, res) => {
-    Post.countByUser(req.params.user_id)
-    .then(countPosts => res.status(200).json(countPosts))
-    .catch(error => res.status(404).json({ error }));
 };
 
 //Get all post by creation date
@@ -100,4 +77,18 @@ exports.getPostsByUpdateDate = (req, res, next) => {
         }
         res.send(data);
     })
+};
+
+//Update post
+exports.updatePost = (req, res, next) => {
+    Post.updateOne(req.params.post_id, (req.body))
+    .then(() => res.status(200).json({ message: 'La publication a bien été modifié !'}))
+    .catch(error => res.status(404).json({ error }));
+};
+
+//Delete post
+exports.deletePost = (req, res, next) => {
+    Post.deleteOne(req.params.post_id)
+    .then(post => res.status(200).json(post))
+    .catch(error => res.status(404).json ({ error }));
 };
