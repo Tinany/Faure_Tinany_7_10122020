@@ -20,8 +20,8 @@
 <script>
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
-import AddNewPost from '@/views/AddNewPost.vue'
-import Posts from '@/views/Posts.vue'
+import AddNewPost from '@/components/Posts/AddNewPost.vue'
+import Posts from '@/components/Posts/Posts.vue'
 
     export default {
         name: 'Home',

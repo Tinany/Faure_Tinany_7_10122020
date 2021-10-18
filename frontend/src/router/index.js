@@ -31,7 +31,7 @@ const routes = [
   {
     path: '/Profile',
     name: 'Profile',
-    component: () => import('../views/Profile.vue'),
+    component: () => import('../components/Profile/Profile.vue'),
     beforeEnter: isAuthenticated
   },
   {
@@ -41,7 +41,7 @@ const routes = [
     beforeEnter: isAuthenticated
   },
   {
-    path: '/UpdatePost/',
+    path: '/UpdatePost/:id',
     name: 'UpdatePost',
     component: () => import('../components/Update/UpdatePost.vue'),
     beforeEnter: isAuthenticated
