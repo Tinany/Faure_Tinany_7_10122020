@@ -45,7 +45,20 @@ const routes = [
     name: 'UpdatePost',
     component: () => import('../components/Update/UpdatePost.vue'),
     beforeEnter: isAuthenticated
+  },
+  {
+  path: '/Post/:id',
+  name: 'Post',
+  component: () => import('../components/Posts/Post.vue'),
+  beforeEnter: isAuthenticated
+  },
+  {
+    path: '/UsersList',
+    name: 'UsersList',
+    component: () => import('../components/Moderator/UsersList.vue'),
+    beforeEnter: isAuthenticated
   }
+  
 ]
 
 const router = createRouter({

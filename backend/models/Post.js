@@ -28,7 +28,7 @@ Post.create = (newPost, result) => {
 Post.findOne = (post_id) => {
     return new Promise((resolve, reject) => {
         database.query(
-            `SELECT p.media, p.description, p.id FROM groupomania.post AS p WHERE id='${post_id}'`,
+            `SELECT p.id AS post_id, p.media, p.description, u.id as user_id, u.first_name, u.last_name, u.profile_picture FROM groupomania.post AS p INNER JOIN user AS u ON p.user_id = u.id  WHERE p.id='${post_id}'`,
             function (error, result) {
                 if (error) {
                     reject (error);
@@ -43,35 +43,10 @@ Post.findOne = (post_id) => {
 //Find all post
 Post.findAll = (result) => {
     database.query(
-        "SELECT p.id AS post_id, p.media, p.description, u.id as user_id, u.first_name, u.last_name, u.profile_picture FROM groupomania.post AS p INNER JOIN user AS u ON p.user_id = u.id ORDER BY p.id DESC", (err, res) => {
-            if (err) {
-                result(err, null);
-                return;
-            } else {
-                result(null, {post: res});
-            }
-        }
-    )
-};
-
-//Find all post by creation date
-Post.findAllByCreationDate = (result) => {
-    database.query(
-        "SELECT * FROM groupomania.post ORDER BY creation_date DESC", (err, res) => {
-            if (err) {
-                result(err, null);
-                return;
-            } else {
-                result(null, {post: res});
-            }
-        }
-    )
-};
-
-//Find all post by update date
-Post.findAllByUpdateDate = (result) => {
-    database.query(
-        "SELECT * FROM groupomania.post ORDER BY modification_date DESC", (err, res) => {
+        "SELECT p.id AS post_id, p.media, p.description, u.id as user_id, u.first_name, u.last_name, u.profile_picture " + 
+        "FROM groupomania.post AS p " + 
+        "INNER JOIN user AS u ON p.user_id = u.id " +
+        "ORDER BY p.id DESC", (err, res) => {
             if (err) {
                 result(err, null);
                 return;

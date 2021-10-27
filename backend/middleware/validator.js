@@ -2,9 +2,9 @@
 const {validationResult, check} = require('express-validator');
 
 exports.checkProfile = [
-    check('first_name').isAlpha('fr-FR', {ignore: ' '}),
-    check('last_name').isAlpha('fr-FR', {ignore: ' '}),
-    check('city').isAlpha('fr-FR', {ignore: ' '}),
+    check('first_name').not().isEmpty().trim().escape(),
+    check('last_name').not().isEmpty().trim().escape(),
+    check('city').not().isEmpty().trim().escape(),
     check('profile_picture').isURL({ protocols: ['https'] }),
     (req, res, next) => {
         const errors = validationResult(req)
@@ -16,7 +16,7 @@ exports.checkProfile = [
 ]
 
 exports.checkPostAndComment = [
-    check('description').isAlpha('fr-FR', {ignore: ' '}),
+    check('description').not().isEmpty().trim().escape(),
     (req, res, next) => {
         const errors = validationResult(req)
         if(!errors.isEmpty()){

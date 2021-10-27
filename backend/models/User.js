@@ -83,4 +83,21 @@ User.deleteOne = (user_id) => {
     })
 };
 
+/*MODERATOR*/
+
+// Users List 
+
+User.findAll = (result) => {
+    database.query(
+        "SELECT * FROM groupomania.user", (err, res) => {
+            if (err) {
+                result(err, null);
+                return;
+            } else {
+                result(null, {post: res});
+            }
+        }
+    )
+}
+
 module.exports = User;
