@@ -92,3 +92,16 @@ exports.deleteUser = (req, res) => {
         .then(() => res.status(200).json({ message: " L'utilisateur a été supprimé ! "}))
         .catch(error => res.status(404).json ({ error }));
 };
+
+/*MODERATOR*/
+
+exports.findAll = (req, res) => {
+    User.findAll((err, data) => {
+        if(err){
+            res.status(500).send({
+                message: err.message || "Des erreurs se sont produites",
+            });
+        }
+        res.send(data);
+    })
+}

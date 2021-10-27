@@ -11,7 +11,14 @@
                 <div class="media align-items-end profile-head">
                   <div class="profile mr-3">
                     <img v-bind:src=" userDatas.profile_picture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" alt="photo de profil" width="130" class="rounded mb-2 img-thumbnail">
-                    <button href="" class="btn btn-outline-dark btn-sm btn-block" @click="showUpdateProfilePage()">Edit profile</button>
+                    <div v-if="userDatas.moderator !== 0">
+                      <button class="btn btn-danger btn-sm btn-block" @click="showUserListPage()">
+                        Users list
+                      </button>
+                  </div>
+                  <div v-if="userDatas.moderator === 0">
+                    <button href="" class="btn btn-outline-dark btn-sm btn-block" @click="showUpdateProfilePage()">Edition du profil</button>
+                  </div>
                   </div>
                   <div class="mb-5 text-white" id="name">
                       <h4>{{ userDatas.first_name }} {{ userDatas.last_name }}</h4>
@@ -58,6 +65,11 @@ export default {
     showUpdateProfilePage() {
       this.$router.push({
           name: 'UpdateProfile'
+          })
+    },
+    showUserListPage() {
+      this.$router.push({
+          name: 'UsersList'
           })
     }
   }

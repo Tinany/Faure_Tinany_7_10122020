@@ -4,7 +4,7 @@ const moment = require("moment");
 // const dateTime = moment().format("YYYY-MM-DD HH:mm:ss");
 
 //Models
-const Post = require('../models/Post');
+const Post = require('../models/Post')
 
 //Create post
 exports.createPost = (req, res, next) => {
@@ -29,7 +29,7 @@ exports.createPost = (req, res, next) => {
     })
 };
 
-//Get user post
+//Get user posts
 exports.getUserPosts = (req, res) => {
     Post.findByUser(req.params.user_id)
     .then(posts => res.status(200).json(posts))
@@ -38,6 +38,7 @@ exports.getUserPosts = (req, res) => {
 
 //Get specific post 
 exports.getOnePost = (req, res, next) => {
+    console.log(req.params.post_id)
     Post.findOne(req.params.post_id, (req.body))
     .then(post => res.status(200).json(post))
     .catch(error => res.status(404).json ({ error }));
@@ -46,30 +47,6 @@ exports.getOnePost = (req, res, next) => {
 //Get all post
 exports.getPosts = (req, res, next) => {
     Post.findAll((err, data) => {
-        if(err){
-            res.status(500).send({
-                message: err.message || "Des erreurs se sont produites",
-            });
-        }
-        res.send(data);
-    })
-};
-
-//Get all post by creation date
-exports.getPostsByCreationDate = (req, res, next) => {
-    post.findAllByCreationDate((err, data) => {
-        if(err){
-            res.status(500).send({
-                message: err.message || "Des erreurs se sont produites",
-            });
-        }
-        res.send(data);
-    })
-};
-
-//Get all post by update date
-exports.getPostsByUpdateDate = (req, res, next) => {
-    post.findAllByUpdateDate((err, data) => {
         if(err){
             res.status(500).send({
                 message: err.message || "Des erreurs se sont produites",
