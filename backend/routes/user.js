@@ -14,7 +14,6 @@ router.post('/signup', checkSignUp, validatePassword, checkProfile, userControll
 router.post('/login', userController.login);
 router.delete('/user/delete/:user_id', auth, userController.deleteUser);
 router.patch('/user/update/:user_id', auth, checkProfile, userController.updateUser);
-
 router.get('/usersList/', userController.findAll);
 
 module.exports = router;

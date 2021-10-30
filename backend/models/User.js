@@ -94,7 +94,7 @@ User.findAll = (result) => {
                 result(err, null);
                 return;
             } else {
-                result(null, {post: res});
+                result(null, {userList: res});
             }
         }
     )

@@ -38,6 +38,7 @@
 </script>
 
 <style scoped>
+
     .navbar-nav {
         padding: 0;
     }
