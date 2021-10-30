@@ -33,7 +33,7 @@ Comment.findAll = (post_id) => {
                 if (error) { 
                     reject (error);
                 } else {
-                    resolve (result);
+                    resolve ({comment: result});
                 }
             }
         )

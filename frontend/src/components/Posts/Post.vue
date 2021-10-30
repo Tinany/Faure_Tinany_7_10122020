@@ -34,21 +34,21 @@
                   pattern="[a-zA-ZÀ-ÿ]{1,512}" v-model="comment.description"/>
                   <button v-on:click.prevent="addComment(post.post_id)" class="btn btn-primary" type="submit"> Envoyer </button>
               </div>
-              <div class="comments" v-for="comment in comments.comment" :key="comment">
+              <div class="d-flex align-items-center comments row mb-4" v-for="comment in comments.comment" :key="comment">
                 <div class="user_profile_picture">
                   <img v-bind:src=" comment.profile_picture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' " 
                   alt="user picture"
-                  width="80"
+                  width="70"
                   class="img mr-3"/>
                 </div>
-                <div class="userName mt-3">
-                  <span class="font-weight-bold">{{ comment.first_name }} {{ comment.last_name }}</span>
+                <div class="userName col-2">
+                  <span class="font-weight-bold">{{ comment.first_name }} {{ comment.last_name }} : </span>
                 </div>
                 <div>
-                  <div class="post_description">{{ comment.description }}</div>
+                  <div class="post_description col-12">{{ comment.description }}</div>
                 </div>
-                <div v-if="comment.user_id === userId || userDatas.moderator !== 0">
-                  <button class="btn btn-danger btn-sm btn-block" @click="deleteComment()">
+                <div class="ml-auto p-2" v-if="comment.user_id === userId || userDatas.moderator !== 0">
+                  <button class="btn btn-danger btn-sm btn-block" @click="deleteComment(comment.comment_id)">
                     Supprimer
                   </button>
                 </div>
@@ -128,30 +128,27 @@ export default {
           this.data = alert("Une erreur est survenue!");
           console.log(error);
         });
+    },
+
+    deleteComment(comment_id) {
+        axios.delete(`http://localhost:3000/api/comment/delete/${comment_id}`, 
+        {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.token}})
+
+        .then(() => {
+            alert('Le commentaire a bien été supprimé');
+            this.$router.go()
+        })
+        .catch(error => {
+          console.log(error);
+          alert('Une erreur est survenue !');
+      })
     }
   }
 }
-
-/*<div class="card-footer">
-
-              <div class="comments" v-for="comment in comments.comment" :key="comment">
-                <div class="user_profile_picture">
-                  <img v-bind:src=" comment.profile_picture || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' " 
-                  alt="user picture"
-                  width="80"
-                  class="img mr-3"/>
-                </div>
-                <div class="userName mt-3">
-                  <span class="font-weight-bold">{{ comment.first_name }} {{ comment.last_name }}</span>
-                </div>
-                <div>
-                  <div class="post_description">{{ post.description }}</div>
-                </div>
-                <div v-if="comment.user_id === userId || userDatas.moderator !== 0">
-                  <button class="btn btn-danger btn-sm btn-block">
-                    Edition
-                  </button>
-                </div>
-              </div>
-            </div> */
 </script>
+
+<style>
+.comments {
+  background-color: #fff;
+}
+</style>
