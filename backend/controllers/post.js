@@ -1,8 +1,3 @@
-// DateTime
-const moment = require("moment");
-
-// const dateTime = moment().format("YYYY-MM-DD HH:mm:ss");
-
 //Models
 const Post = require('../models/Post')
 
@@ -27,13 +22,6 @@ exports.createPost = (req, res, next) => {
         }
         res.status(200).send(data)
     })
-};
-
-//Get user posts
-exports.getUserPosts = (req, res) => {
-    Post.findByUser(req.params.user_id)
-    .then(posts => res.status(200).json(posts))
-    .catch(error => res.status(404).json({ error }));
 };
 
 //Get specific post 

@@ -10,8 +10,6 @@ const {checkPostAndComment} = require('../middleware/validator');
 //Comment routes
 router.post('/createComment/', auth, checkPostAndComment, commentController.createComment);
 router.get('/comments/post/:post_id', commentController.findAllComments);
-router.get('/comments/post/:user_id', commentController.findUserComments);
-router.get('/comment/:comment_id', auth, commentController.findCommentById);
 router.patch('/update/:comment_id', auth, checkPostAndComment, commentController.updateComment);
 router.delete('/delete/:comment_id', auth, commentController.deleteOneComment);
 

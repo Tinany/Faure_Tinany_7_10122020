@@ -30,20 +30,6 @@ exports.findAllComments = (req, res) => {
     .catch(error => res.status(404).json({ error }));
 };
 
-//Get all comment by user id
-exports.findUserComments = (req, res) => {
-    Comment.findAllUserComment(req.params.user_id)
-    .then(comments => res.status(200).json(comments))
-    .catch(error => res.status(404).json({ error }));
-};
-
-//Get comment by id
-exports.findCommentById = (req, res) => {
-    Comment.findById(req.params.comment_id)
-    .then(comment => res.status(200).json(comment))
-    .catch(error => res.status(404).json({ error }));
-};
-
 //update commment
 exports.updateComment = (req, res) => {
     let comment_id = req.params.comment_id;

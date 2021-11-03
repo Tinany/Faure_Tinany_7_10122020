@@ -22,7 +22,7 @@
             </section>
         </main>
         <footer>
-            <Footer/>
+            <Footer class="fixed-bottom"/>
         </footer> 
     </div>
 </template>
@@ -45,7 +45,10 @@ import Footer from '@/components/Footer.vue'
         },
 
         mounted() {
-            axios.get("http://localhost:3000/api/auth/usersList")
+            this.token = JSON.parse(localStorage.getItem("token"))
+
+            axios.get("http://localhost:3000/api/auth/usersList", 
+            {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + this.token}})
             .then((response) => {
                 console.log(response.data);
                 this.users = response.data;
@@ -63,8 +66,7 @@ import Footer from '@/components/Footer.vue'
 
             .then(() => {
                 alert('Le profil a bien été supprimé');
-                localStorage.clear();
-                this.$router.push('/'); 
+                this.$router.go(); 
             })
             .catch(error => {
               console.log(error);

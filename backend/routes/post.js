@@ -11,7 +11,6 @@ const {checkPostAndComment} = require('../middleware/validator');
 router.post('/createPost/', auth, checkPostAndComment, postController.createPost);
 router.get('/onePost/:post_id', auth, postController.getOnePost);
 router.get('/posts/', postController.getPosts);
-router.get('/userPosts/', postController.getUserPosts);
 router.patch('/update/:post_id', auth, checkPostAndComment, postController.updatePost);
 router.delete('/delete/:post_id', auth, postController.deletePost);
 
