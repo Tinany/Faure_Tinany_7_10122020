@@ -57,22 +57,6 @@ Post.findAll = (result) => {
     )
 };
 
-//Find post by user id
-Post.findByUser = (user_id) => {
-    return new Promise ((resolve, reject) => {
-        database.query(
-            `SELECT * FROM groupomania.post WHERE user_id=${user_id}`,
-            function (error, result) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(result);
-                }
-            }
-        )
-    })
-};
-
 //Update post
 Post.updateOne = (post_id, post) => {
     return new Promise((resolve, reject) => {

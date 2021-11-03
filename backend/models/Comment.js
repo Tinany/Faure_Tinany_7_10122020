@@ -40,38 +40,6 @@ Comment.findAll = (post_id) => {
     })
 };
 
-//Find all comment by user id
-Comment.findAllUserComment = (user_id) => {
-    return new Promise((resolve, reject) => {
-        database.query(
-            `SELECT * FROM groupomania.comment WHERE post_id=${user_id}`, 
-            function (error, result) {
-                if (error) { 
-                    reject (error);
-                } else {
-                    resolve (result);
-                }
-            }
-        )
-    })
-};
-
-//Find comment by id 
-Comment.findById = (comment_id) => {
-    return new Promise((resolve, reject) => {
-        database.query(
-            `SELECT * FROM groupomania.comment WHERE id=${comment_id}`, 
-            function (error, result) {
-                if (error) { 
-                    reject (error);
-                } else {
-                    resolve (result);
-                }
-            }
-        )
-    })
-};
-
 //Update comment
 Comment.updateOne = (comment_id, comment_description) => {
     return new Promise((resolve, reject) => {

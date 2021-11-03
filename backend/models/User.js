@@ -1,17 +1,11 @@
 const database = require('../config/database');
 
-// DateTime
-const moment = require("moment");
-
-const dateTime = moment().format("YYYY-MM-DD HH:mm:ss");
-
 //User constructor
 const User = function(user) {
     this.first_name = user.first_name,
     this.last_name = user.last_name,
     this.city = user.city,
     this.profile_picture = user.profile_picture,
-    this.creation_date = user.creation_date,
     this.mail = user.mail,
     this.password = user.password,
     this.moderator = user.moderator
@@ -51,7 +45,7 @@ User.findOne = (mail, result) => {
 User.updateOne = (user_id, user) => {
     return new Promise((resolve, reject) => {
         database.query(
-            `UPDATE groupomania.user SET last_name="${user.last_name}", first_name="${user.first_name}", city="${user.city}", profile_picture="${user.profile_picture}", modification_date="${dateTime}" WHERE id=${user_id}`,
+            `UPDATE groupomania.user SET last_name="${user.last_name}", first_name="${user.first_name}", city="${user.city}", profile_picture="${user.profile_picture}" WHERE id=${user_id}`,
             function (error, result) {
                 if (error) {
                     reject (error);
