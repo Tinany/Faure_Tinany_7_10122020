@@ -1,7 +1,7 @@
 //Technologies used
 const {validationResult, check} = require('express-validator');
 
-exports.checkSignUp = [
+exports.checkEmail = [
     check('mail').isEmail().trim(),
     (req, res, next) => {
         const errors = validationResult(req)

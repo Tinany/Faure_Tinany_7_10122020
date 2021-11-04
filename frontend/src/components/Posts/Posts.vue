@@ -1,6 +1,5 @@
 <template>
-  <div class="container">
-    <section>
+    <section class="col-xl-6 col-md-6 mx-auto">
       <h3 class="text-center font-weight-bold text-danger mb-5 h2">Les dernières publications partagées</h3>
       <div class="posts card rounded mb-3 shadow" v-for="post in posts.post" :key="post">
         <div class="card-header">
@@ -24,14 +23,13 @@
             </div>
           </div>
           <div class="post_description">{{ post.description }}</div>
-          </div>
-          <img :src="post.media" class="post-media d-flex justify-content-center" />
-          <div class="card-footer">
-            <button class="btn btn-color btn-block" @click="showPostPage(post.post_id)">Voir la publication</button>
-          </div>
+        </div>
+        <img :src="post.media" class="post-media d-flex justify-content-center" />
+        <div class="card-footer">
+          <button class="btn btn-color btn-block" @click="showPostPage(post.post_id)">Voir la publication</button>
+        </div>
       </div>
     </section>
-  </div>
 </template>
 
 <script>
@@ -84,11 +82,7 @@ export default {
 </script>
 
 <style scoped>
-.post-media {
-  width: 100%;
-  height: 25vw;
-  object-fit: cover;
-}
+
 .btn-color {
   background-color: rgb(33, 52, 82);
   color: white;

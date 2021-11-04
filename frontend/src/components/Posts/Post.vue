@@ -41,7 +41,7 @@
                   width="70"
                   class="img mr-3"/>
                 </div>
-                <div class="userName col-2">
+                <div class="userName">
                   <span class="font-weight-bold">{{ comment.first_name }} {{ comment.last_name }} : </span>
                 </div>
                 <div>
@@ -150,5 +150,6 @@ export default {
 <style>
 .comments {
   background-color: #fff;
+  height: 50px;
 }
 </style>

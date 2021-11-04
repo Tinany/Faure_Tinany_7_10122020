@@ -12,12 +12,12 @@
                 <input v-model="post.description" id="description" type="text" pattern="[a-zA-ZÀ-ÿ]{1,128}" class="mt-3 mb-3 ml-5 mr-5"/>
                 <h4 class="ml-3 mt-2 mb-2">Changer le média :</h4>
                 <input v-model="post.media" id="media"  class="mb-3 ml-5 mr-5" type="text" pattern="/^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+) (?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/"/>
-                <button @click="updatePost(post.id)" class="send color-btn btn btn-dark text-light" type="submit">Modifier</button>
+                <button @click="updatePost(post.post_id)" class="send color-btn btn btn-dark text-light" type="submit">Modifier</button>
             </section>
             <section class="container col-xl-5 col-12 mt-5">
                 <div class="card border shadow mb-5 bg-white rounded">
                     <div class="card">
-                        <button type="submit" class="btn btn-danger" @click="deletePost(post.id)">Supprimer cette publication</button>
+                        <button type="submit" class="btn btn-danger" @click="deletePost(post.post_id)">Supprimer cette publication</button>
                     </div>
                 </div>
             </section>
@@ -47,7 +47,7 @@ import Footer from '@/components/Footer.vue'
         },
 
         methods: {
-
+            
         updatePost(post_id) {
             axios.patch(`http://localhost:3000/api/post/update/${post_id}`, {
             description: this.post.description,
@@ -82,11 +82,15 @@ import Footer from '@/components/Footer.vue'
           })
         }
     },
+
     mounted() {
         this.token = JSON.parse(localStorage.getItem("token"))
         let post_id = this.$route.params.id
+        console.log(post_id)
         
-        axios.get(`http://localhost:3000/api/post/onePost/${post_id}`, {'Content-Type': 'application/json', headers: {Authorization: 'Bearer ' + this.token}})
+        axios.get(`http://localhost:3000/api/post/onePost/${post_id}`, 
+        {'Content-Type': 'application/json', headers: {Authorization: 'Bearer ' + this.token}})
+
             .then((response) => {
             console.log(response);
             this.post = response.data[0];
