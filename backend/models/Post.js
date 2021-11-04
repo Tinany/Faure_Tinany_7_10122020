@@ -61,7 +61,7 @@ Post.findAll = (result) => {
 Post.updateOne = (post_id, post) => {
     return new Promise((resolve, reject) => {
         database.query(
-            `UPDATE groupomania.post SET description="${post.description}", media="${post.media}" WHERE id="${post_id}"`,
+            `UPDATE groupomania.post SET description="${post.description}", media="${post.media}" WHERE id=${post_id}`,
             function (error, result) {
                 if (error) {
                     reject (error);

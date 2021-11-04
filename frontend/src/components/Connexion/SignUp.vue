@@ -19,6 +19,7 @@
             <input type="email" id="mail" class="form-control mb-2" placeholder="Email" required autofocus="" v-model="mail">
             <label for="inputPassword" class="sr-only">Mot de passe</label>
             <input type="password" id="password" class="form-control mb-3" placeholder="Mot de passe" required v-model="password">
+            <p class="font-italic">Le mot de passe doit contenir au moins une majuscule et un chiffre</p>
             <div class="text-center">
                 <button class="btn btn-lg btn-danger btn-block" @click="signUp()">Inscription</button>
             </div>
@@ -77,7 +78,9 @@ export default {
             .then((response) => {
             this.successMessage = response.data.message;
             localStorage.setItem("user", JSON.stringify(response.data)),
-            
+            localStorage.setItem("userId", JSON.stringify(response.data.id)),
+            localStorage.setItem("token", JSON.stringify(response.data.token)),
+
             axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.token,
             
             this.$router.push({

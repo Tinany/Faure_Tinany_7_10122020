@@ -8,11 +8,11 @@ module.exports = (req, res, next) => {
     const decodedToken = jsonwebtoken.verify(token, process.env.RANDOM_TOKEN);
     console.log(decodedToken)
     const user_id = decodedToken.id;
-    /*if (req.body.user_id && req.body.user_id !== user_id) {
+    if (req.body.user_id && req.body.user_id !== user_id) {
       throw 'Invalid user ID';
-    } else {*/
+    } else {
       next();
-    //}
+    }
   } catch (err) {
     console.log(err);
     res.status(401).json({
